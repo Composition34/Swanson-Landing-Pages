@@ -1,0 +1,927 @@
+
+// ==========================================================================
+// ADOBE TYPEKIT FONT VARIABLES
+// ==========================================================================
+
+// Sans-Serif options (Great for body copy or clean UI)
+$source-sans-3: 'source-sans-3', sans-serif;
+$source-sans-3-variable: 'source-sans-3-variable', sans-serif;
+
+// Editorial Serif options (Great for elegant, high-end headings)
+$kepler-3-variable: 'kepler-3-variable', serif;
+$kepler-3-display-variable: 'kepler-3-display-variable', serif; // Optimized for large headlines
+
+// Display/Accent option (Perfect for creative or stylistic headings)
+$filmtype-lacrosse: 'filmtype-lacrosse', sans-serif;
+
+// ==========================================================================
+// Color Variables
+// ==========================================================================
+
+$dark: #2A2426;
+$grey: #4A5259;
+$light: #768595;
+$white: #FFFFFF;
+$border: #D1D0CE;
+$bgfill: #F6F5F5;
+$bglightblue: #B4C5E4;
+
+// ==========================================================================
+// Breakpoints
+// ==========================================================================
+
+$mobile: 480px;
+$tablet: 768px;
+$laptop: 1024px;
+$desktop: 1200px;
+
+// ==========================================================================
+// Mixins
+// ==========================================================================
+
+@mixin font-style($size, $weight, $line-height) {
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height;
+}
+
+@mixin bg($color, $url, $pos, $size, $repeat) {
+    background-color: $color;
+    background-image: url('#{$url}');
+    background-position: $pos;
+    background-size: $size;
+    background-repeat: $repeat;
+}
+
+@mixin max-width($breakpoint) {
+  @media (max-width: $breakpoint) {
+    @content;
+  }
+}
+
+
+
+
+body {
+  &.page-id-118023 {
+    #content-wrap {
+      width: 100% !important;
+      max-width: 100% !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      .e-con-inner {
+        max-width: 100%;
+      }
+      .elementor-widget {
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+    }
+    .hide {
+      display: none !important;
+    }
+  }
+}
+
+.flex__column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  
+}
+
+.flex__row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;  
+}
+
+.lp__1080 {
+  max-width: 1080px;
+  width: 100%;
+  @include max-width($desktop) {
+    max-width: 90%;
+  }
+}
+
+.lp__full {
+  max-width: 100%;
+  width: 100%;
+}
+.elementor-element {
+  padding: 0 !important;
+  .e-con-inner {
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 !important;
+  }
+}
+
+.top__nav {
+  small {
+    font-family: $source-sans-3-variable;
+    @include font-style(13px, 500, 13px);
+    color: $light;
+    padding: 0 0 35px 0;
+    text-transform: uppercase;
+  }
+  p {
+    font-family: $source-sans-3-variable;
+    @include font-style(18px, 400, 24px);
+    color: $grey;
+    strong {
+      font-family: $kepler-3-display-variable;
+      @include font-style(40px, 600, 40px);
+      color: $dark;
+    }
+    &:last-of-type {
+      width: 60%;
+      text-transform: none;
+    }
+  }
+  ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    li {
+      display: flex;
+      position: relative;
+      flex: 1;
+      border-radius: 10px;
+      a {
+        position: relative;
+        flex: 1;
+        height: 184px;
+        border: 1px solid $border;
+        border-radius: 10px;
+        padding: 25% 2em 7% 2em;
+        transition: background-color 0.4s ease;
+        small {
+          font-family: $source-sans-3;
+          @include font-style(16px, 500, 16px);
+          color: $grey;
+          text-transform: none;
+          padding: 15px 0 0 0;
+        }
+        strong {
+          font-family: $kepler-3-display-variable;
+          @include font-style(30px, 700, 30px);
+          text-transform: none;
+          color: $dark;
+        }
+      }
+      &::after {
+        position: absolute;
+        content: "";
+        width: 17px;
+        height: 9px;
+        right: 20px;
+        top: 50%;
+        transition: box-shadow 0.5s ease;
+        @include bg($white, 'https://swansoninc.com/wp-content/uploads/icon_arrow_right_768595.png', 0 0, 100% 100%, no-repeat);
+      }
+      &:hover {
+        box-shadow: 0px 2px 7px 0px #00000017;
+        transition: box-shadow 0.5s ease;
+      }
+      &:first-child {
+        a {
+          @include bg($white, 'https://swansoninc.com/wp-content/uploads/icon_user_heart_768595.png', 30px 25%, 25px auto, no-repeat);
+        }
+      }
+      &:nth-child(2) {
+        a {
+          @include bg($white, 'https://swansoninc.com/wp-content/uploads/icon_church_768595.png', 30px 25%, 25px auto, no-repeat);
+        }
+      }
+      &:last-child {
+        a {
+          @include bg($white, 'https://swansoninc.com/wp-content/uploads/icon_store_768595.png', 30px 25%, 25px auto, no-repeat);
+        }
+      }
+      &.active {
+        pointer-events: none;
+        a {
+          background-color: $grey !important;
+          small,
+          strong {
+            color: $white;
+          }
+        }
+        &::after {
+            display: none;
+          }
+        &:first-child {
+          a {
+            @include bg($white, 'https://swansoninc.com/wp-content/uploads/icon_user_heart_FFFFFF.png', 30px 25%, 25px auto, no-repeat);
+          }
+        }
+        &:nth-child(2) {
+          a {
+            @include bg($white, 'https://swansoninc.com/wp-content/uploads/icon_church_FFFFFF.png', 30px 25%, 25px auto, no-repeat);
+          }
+        }
+        &:last-child {
+          a {
+            @include bg($white, 'https://swansoninc.com/wp-content/uploads/icon_store_FFFFFF.png', 30px 25%, 25px auto, no-repeat);
+          }
+        }
+      }
+    }
+  }
+}
+
+.hero__banner {
+  @include bg($white, 'https://swansoninc.com/wp-content/uploads/LPHeroBG.png', 50% 50%, cover, no-repeat);
+  min-height: 820px;
+  margin: 35px 0;
+  position: relative;
+  .hero__banner__content {
+    height: 100%;
+    width: 50%;
+    padding: 20px;
+    background-color: rgba($white, 0.75);
+    small {
+      font-family: $source-sans-3-variable;
+      @include font-style(13px, 500, 13px);
+      color: $light;
+      padding: 0 0 35px 0;
+      text-transform: uppercase;
+      span {
+        padding: 0 15px;
+      }
+    }
+    h3 {
+      font-family: $kepler-3-display-variable;
+      @include font-style(60px, 600, 60px);
+      color: $dark;
+    }
+    p {
+      font-family: $source-sans-3-variable;
+      @include font-style(18px, 400, 24px);
+      color: $grey;
+    }
+    a {
+      background-color: $grey;
+      border-radius: 10px;
+      font-family: $source-sans-3-variable;
+      @include font-style(13px, 500, 13px);
+      color: $white;
+      padding: 15px 20px;
+      margin: 15px auto 25px 0;
+    }
+  }
+  ul {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    max-width: 1080px;
+    width: 100%;
+    @include max-width($desktop) {
+      max-width: 90%;
+    }
+    min-height: 165px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    bottom: -80px;
+    li {
+      display: flex;
+      flex: 1;
+      border: 1px solid $border;
+      background-color: $white;
+      padding: 20px;
+      small {
+        font-family: $source-sans-3-variable;
+        @include font-style(14px, 400, 14px);
+        color: $grey;
+        &:first-of-type {
+          font-family: $kepler-3-display-variable;
+          @include font-style(12px, 600, 12px);
+          color: $border;
+        }
+      }
+      strong {
+        font-family: $kepler-3-display-variable;
+        @include font-style(23px, 600, 23px);
+        color: $dark;
+        padding: 20px 0;
+      }
+    }
+  }
+}
+
+
+
+h3 {
+  &.tagline__title {
+    font-family: $kepler-3-display-variable;
+    @include font-style(60px, 600, 60px);
+    color: $dark;
+    margin: 70px auto 25px auto;
+    padding: 0 0 25px 0;
+    text-align: center;
+    border-bottom: 1px solid $border;
+  }
+}
+
+.essentials {
+  position: relative;
+  small {
+    font-family: $source-sans-3-variable;
+    @include font-style(13px, 500, 13px);
+    color: $light;
+    padding: 0 0 35px 0;
+    text-transform: uppercase;
+  }
+  p {
+    font-family: $source-sans-3-variable;
+    @include font-style(18px, 400, 24px);
+    color: $grey;
+    strong {
+      font-family: $kepler-3-display-variable;
+      @include font-style(40px, 600, 40px);
+      color: $dark;
+    }
+    &:nth-last-of-type(2) {
+      width: 85%;
+    }
+    &.btn__right {
+      position: absolute;
+      content: "";
+      width: 15%;
+      right: 0;
+    }
+  }
+  .grid__layout {
+    display: grid;
+    // Create 3 equal-width columns
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    .grid__layout__ind {
+      position: relative;
+      overflow: hidden;
+      grid-column: span 1;
+      height: 350px;      // Set your consistent block height
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 15px;
+      &:nth-child(1) {
+        grid-column: span 2;
+      }
+      strong {
+        position: relative;
+        z-index: 2;
+        font-family: $kepler-3-display-variable;
+        @include font-style(30px, 700, 30px);
+        text-transform: none;
+        color: $white;
+        padding: 0 0 15px 0;
+      }
+      small {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        position: relative;
+        z-index: 2;
+        padding: 0;
+        span {
+          font-family: $source-sans-3;
+          @include font-style(12px, 500, 16px);
+          color: $white;
+          text-transform: none;
+          &:first-child {
+            flex: 1;
+          }
+          &:last-child {
+            width: 30%;
+            flex-shrink: 0;
+          }
+        }
+      }
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;       // Stretch width to 100% of parent
+        height: 100%;      // Stretch height to 100% of parent
+        object-fit: cover; // Fill the area while preserving aspect ratio (will crop edges)
+        object-position: center; // Equivalent to 'background-position: center'
+        z-index: 1;
+      }
+    }
+  }
+}
+
+.explore__essentials {
+  position: relative;
+  small {
+    font-family: $source-sans-3-variable;
+    @include font-style(13px, 500, 13px);
+    color: $light;
+    padding: 0 0 35px 0;
+    text-transform: uppercase;
+  }
+  p {
+    font-family: $source-sans-3-variable;
+    @include font-style(18px, 400, 24px);
+    color: $grey;
+    strong {
+      font-family: $kepler-3-display-variable;
+      @include font-style(40px, 600, 40px);
+      color: $dark;
+    }
+    &:nth-last-of-type(2) {
+      width: 85%;
+    }
+    &.btn__right {
+      position: absolute;
+      content: "";
+      width: 15%;
+      right: 0;
+    }
+  }
+  .grid__layout {
+    display: grid;
+    // Col 1 (Hero), Col 2 (Small), Col 3 (Small)
+    grid-template-columns: 40% 1fr 1fr;
+    // 4 rows of 175px each = 700px total
+    grid-template-rows: repeat(4, 175px); 
+    gap: 20px;
+    .grid__layout__ind {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 15px;
+      // The "Hero" image: spans all 4 rows
+      &:nth-child(1) {
+        grid-row: span 4;
+        img {
+          object-position: left center;
+        }
+      }
+
+      // All other items: default to 1 row high
+      &:not(:nth-child(1)) {
+        grid-row: span 1;
+        flex-direction: row;
+        align-items: flex-end;
+        strong {
+          display: flex;
+          flex: 1;
+          font-family: $kepler-3-display-variable;
+          @include font-style(16px, 700, 16px);
+          padding: 0;
+        }
+        small {
+          &:last-child {
+            width: 30%;
+            flex-shrink: 0;
+          }
+        }
+      }
+      strong {
+        position: relative;
+        z-index: 2;
+        font-family: $kepler-3-display-variable;
+        @include font-style(30px, 700, 30px);
+        text-transform: none;
+        color: $white;
+        padding: 0 0 15px 0;
+      }
+      small {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        position: relative;
+        z-index: 2;
+        padding: 0;
+        span {
+          font-family: $source-sans-3;
+          @include font-style(12px, 500, 16px);
+          color: $white;
+          text-transform: none;
+          &:first-child {
+            flex: 1;
+          }
+          &:last-child {
+            width: 30%;
+            flex-shrink: 0;
+          }
+        }
+      }
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;       // Stretch width to 100% of parent
+        height: 100%;      // Stretch height to 100% of parent
+        object-fit: cover; // Fill the area while preserving aspect ratio (will crop edges)
+        object-position: center; // Equivalent to 'background-position: center'
+        z-index: 1;
+      }
+    }
+  }
+}
+
+.line__break {
+  height: 1px;
+  margin: 25px auto;
+  border-bottom: 1px solid $border;
+}
+
+
+.outreach__resources {
+  .outreach__resources__top {
+    img {
+      display: flex;
+      width: 60%;
+      height: auto;
+      aspect-ratio: 2.73 / 1;
+      object-fit: cover;
+      padding: 0 15px 0 0;
+    }
+    .flex__column {
+      flex: 1;
+      small {
+        font-family: $source-sans-3-variable;
+        @include font-style(13px, 500, 13px);
+        color: $light;
+        padding: 0 0 35px 0;
+        text-transform: uppercase;
+      }
+      p {
+        font-family: $source-sans-3-variable;
+        @include font-style(18px, 400, 24px);
+        color: $grey;
+        strong {
+          font-family: $kepler-3-display-variable;
+          @include font-style(40px, 600, 40px);
+          color: $dark;
+        }
+        &:nth-last-of-type(2) {
+          width: 85%;
+        }
+      }
+      a {
+        background-color: $grey;
+        border-radius: 10px;
+        font-family: $source-sans-3-variable;
+        @include font-style(13px, 500, 13px);
+        color: $white;
+        padding: 15px 20px;
+        margin: 15px auto 0 0;
+      }
+    }
+  }
+  ul {
+    &.thumbnails__5 {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      column-gap: 10px;
+      list-style: none;
+      padding: 0;
+      margin: 25px 0 0 0;
+      li {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        flex: 1;
+        border-radius: 10px;
+        background-color: $bgfill;
+        a {
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          flex: 1;
+          height: 350px;
+          border: 1px solid $border;
+          border-radius: 10px;
+          img {
+            width: 100%;
+          }
+          strong {
+            font-family: $kepler-3-display-variable;
+            @include font-style(16px, 700, 16px);
+            color: $dark;
+            padding: 15px;
+            margin: 0 0 15px 0;
+            position: relative;
+            &::after {
+              position: absolute;
+              content: "";
+              width: calc(100% - 30px);
+              left: 50%;
+              bottom: 0;
+              transform: translate(-50%, 0);
+              height: 1px;
+              background-color: $border;
+            }
+          }
+          small {
+            @include font-style(12px, 500, 12px);
+            color: $light;
+            padding: 0 15px 15px 15px;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.church__pricing {
+  background-color: $bglightblue;
+  margin: 25px 0 0 0;
+  .church__pricing__inner {
+    margin: 0 auto;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: row;
+    .church__pricing__inner__left {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      small {
+        font-family: $source-sans-3-variable;
+        @include font-style(13px, 500, 13px);
+        color: $light;
+        padding: 0 0 35px 0;
+        text-transform: uppercase;
+      }
+      p {
+        font-family: $source-sans-3-variable;
+        @include font-style(18px, 400, 24px);
+        color: $grey;
+        strong {
+          font-family: $kepler-3-display-variable;
+          @include font-style(40px, 600, 40px);
+          color: $dark;
+        }
+      }
+    }
+    .church__pricing__inner__right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      width: 30%;
+      small {
+        font-family: $source-sans-3-variable;
+        @include font-style(13px, 500, 13px);
+        color: $light;
+        padding: 15px 0 0 0;
+        text-transform: uppercase;
+        text-align: right;
+      }
+      a {
+        background-color: $grey;
+        border-radius: 10px;
+        font-family: $source-sans-3-variable;
+        @include font-style(13px, 500, 13px);
+        color: $white;
+        padding: 15px 20px;
+        margin: 15px 0 0 auto;
+      }
+    }
+  }
+}
+
+
+.childrens__ministry {
+  margin-top: 25px;
+  .childrens__ministry__top, 
+  .childrens__ministry__top__img {
+    position: relative;
+    small {
+      font-family: $source-sans-3-variable;
+      @include font-style(13px, 500, 13px);
+      color: $light;
+      padding: 0 0 35px 0;
+      text-transform: uppercase;
+    }
+    p {
+      font-family: $source-sans-3-variable;
+      @include font-style(18px, 400, 24px);
+      color: $grey;
+      strong {
+        font-family: $kepler-3-display-variable;
+        @include font-style(40px, 600, 40px);
+        color: $dark;
+      }
+      &.btn__right {
+        position: absolute;
+        content: "";
+        width: 15%;
+        right: 0;
+      }
+    }
+  }
+  .childrens__ministry__top {
+    p {
+      &:last-of-type {
+        width: 85%;
+      }
+    }
+    a {
+      position: absolute;
+      content: "";
+      right: 0;
+      bottom: 20px;
+      color: $light;
+      font-family: $source-sans-3-variable;
+      @include font-style(13px, 500, 13px);
+      margin: 15px auto 0 0;
+    }
+  }
+  .childrens__ministry__top__img {
+    padding: 25px;
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;       // Stretch width to 100% of parent
+      height: 100%;      // Stretch height to 100% of parent
+      object-fit: cover; // Fill the area while preserving aspect ratio (will crop edges)
+      object-position: center; // Equivalent to 'background-position: center'
+      z-index: 1;
+    }
+    small,
+    p,
+    p strong {
+      color: $white;
+      z-index: 2;
+    }
+  }
+  ul {
+    &.thumbnails__5 {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      column-gap: 10px;
+      list-style: none;
+      padding: 0;
+      margin: 25px 0 0 0;
+      li {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        flex: 1;
+        border-radius: 10px;
+        background-color: $bgfill;
+        a {
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          flex: 1;
+          height: 350px;
+          border: 1px solid $border;
+          border-radius: 10px;
+          img {
+            width: 100%;
+          }
+          strong {
+            font-family: $kepler-3-display-variable;
+            @include font-style(16px, 700, 16px);
+            color: $dark;
+            padding: 15px;
+            margin: 0 0 15px 0;
+            position: relative;
+            &::after {
+              position: absolute;
+              content: "";
+              width: calc(100% - 30px);
+              left: 50%;
+              bottom: 0;
+              transform: translate(-50%, 0);
+              height: 1px;
+              background-color: $border;
+            }
+          }
+          small {
+            @include font-style(12px, 500, 12px);
+            color: $light;
+            padding: 0 15px 15px 15px;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.brands {
+  margin-top: 25px;
+  .brands__top {
+    position: relative;
+    small {
+      font-family: $source-sans-3-variable;
+      @include font-style(13px, 500, 13px);
+      color: $light;
+      padding: 0 0 35px 0;
+      text-transform: uppercase;
+    }
+    p {
+      font-family: $source-sans-3-variable;
+      @include font-style(18px, 400, 24px);
+      color: $grey;
+      strong {
+        font-family: $kepler-3-display-variable;
+        @include font-style(40px, 600, 40px);
+        color: $dark;
+      }
+      &:last-of-type {
+        width: 85%;
+      }
+      &.btn__right {
+        position: absolute;
+        content: "";
+        width: 15%;
+        right: 0;
+      }
+    }
+    a {
+      position: absolute;
+      content: "";
+      right: 0;
+      bottom: 20px;
+      color: $light;
+      font-family: $source-sans-3-variable;
+      @include font-style(13px, 500, 13px);
+      margin: 15px auto 0 0;
+    }
+  }
+  ul {
+    &.thumbnails__3 {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      column-gap: 10px;
+      list-style: none;
+      padding: 0;
+      margin: 25px 0 0 0;
+      li {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        flex: 1;
+        border-radius: 10px;
+        background-color: $bgfill;
+        a {
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          flex: 1;
+          height: 350px;
+          border: 1px solid $border;
+          border-radius: 10px;
+          img {
+            width: 100%;
+          }
+          strong {
+            font-family: $kepler-3-display-variable;
+            @include font-style(16px, 700, 16px);
+            color: $dark;
+            position: relative;
+            padding: 15px 15px 0 15px;
+          }
+          small {
+            position: relative;
+            @include font-style(12px, 500, 12px);
+            color: $light;
+            padding: 0 15px 15px 15px;
+            &:first-of-type {
+              padding: 15px;
+              margin: 0 0 15px 0; 
+              &::after {
+                position: absolute;
+                content: "";
+                width: calc(100% - 30px);
+                left: 50%;
+                bottom: 0;
+                transform: translate(-50%, 0);
+                height: 1px;
+                background-color: $border;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
