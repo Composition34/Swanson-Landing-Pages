@@ -1156,7 +1156,7 @@ h3 {
       @include font-style(13px, 500, 13px);
       color: $light;
       padding: 0 0 35px 0;
-      text-transform: uppercase;
+      text-transform: none;
     }
     p {
       font-family: $source-sans-3-variable;
@@ -1197,7 +1197,7 @@ h3 {
           @include font-style(13px, 500, 18px);
           color: $light;
           padding: 0 0 10px 0;
-          text-transform: uppercase;
+          text-transform: none;
           border-bottom: 1px solid $border;
           margin: 0 0 10px 0;
         }
@@ -1907,6 +1907,185 @@ h3 {
             }
           }
         }
+      }
+    }
+  }
+}
+
+.displays {
+  margin-top: 25px;
+  .displays__top {
+    position: relative;
+    padding: 25px;
+    border-radius: 10px;
+    overflow: hidden;
+    small {
+      font-family: $source-sans-3-variable;
+      @include font-style(13px, 500, 13px);
+      color: $light;
+      padding: 0 0 35px 0;
+      text-transform: uppercase;
+      z-index: 3;
+    }
+    p {
+      font-family: $source-sans-3-variable;
+      @include font-style(18px, 400, 24px);
+      color: $white;
+      z-index: 3;
+      width: 45%;
+      strong {
+        font-family: $kepler-3-display-variable;
+        @include font-style(40px, 600, 40px);
+        color: $white;
+      }
+      &.btn__right {
+        position: absolute;
+        content: "";
+        width: 15%;
+        right: 0;
+      }
+    }
+    a {
+      background-color: $grey;
+      border-radius: 10px;
+      font-family: $source-sans-3-variable;
+      @include font-style(13px, 500, 13px);
+      color: $white;
+      padding: 15px 20px;
+      margin: 0 auto 0 0;
+      border: none;
+      white-space: nowrap;
+      z-index: 3;
+    }
+    .displays__top__bg {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      &::after {
+        position: absolute;
+        content: "";
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+        z-index: 2;
+      }
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+      }
+    }
+  }
+  ul {
+    &.thumbnails__4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      list-style: none;
+      padding: 0;
+      margin: 25px 0 0 0;
+      li {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        border-radius: 10px;
+        a {
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          flex: 1;
+          height: 350px;
+          img {
+            width: 100%;
+            border-radius: 10px;
+          }
+          small {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            position: relative;
+            @include font-style(12px, 500, 12px);
+            color: $dark;
+            padding: 15px 0 0 0;
+            span {
+              display: flex;
+              color: $light;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.savings {
+  background-color: $bglightblue;
+  margin: 25px 0 0 0;
+  .savings__inner {
+    margin: 0 auto;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: row;
+    .savings__inner__left {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      small {
+        font-family: $source-sans-3-variable;
+        @include font-style(13px, 500, 13px);
+        color: $light;
+        padding: 0 0 35px 0;
+        text-transform: uppercase;
+      }
+      p {
+        font-family: $source-sans-3-variable;
+        @include font-style(18px, 400, 24px);
+        color: $grey;
+        &:last-of-type {
+          width: 65%;
+        }
+        strong {
+          font-family: $kepler-3-display-variable;
+          @include font-style(40px, 600, 40px);
+          color: $dark;
+        }
+      }
+    }
+    .savings__inner__right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      width: 30%;
+      small {
+        font-family: $source-sans-3-variable;
+        @include font-style(13px, 500, 13px);
+        color: $light;
+        padding: 15px 0 0 0;
+        text-transform: uppercase;
+        text-align: right;
+      }
+      a {
+        background-color: $grey;
+        border-radius: 10px;
+        font-family: $source-sans-3-variable;
+        @include font-style(13px, 500, 13px);
+        color: $white;
+        padding: 15px 20px;
+        margin: 15px 0 0 auto;
       }
     }
   }
