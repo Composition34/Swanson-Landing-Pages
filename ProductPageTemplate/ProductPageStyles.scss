@@ -1,0 +1,565 @@
+
+// ==========================================================================
+// ADOBE TYPEKIT FONT VARIABLES
+// ==========================================================================
+
+// Sans-Serif options (Great for body copy or clean UI)
+$source-sans-3: "source-sans-3", sans-serif;
+$source-sans-3-variable: "source-sans-3-variable", sans-serif;
+
+// Editorial Serif options (Great for elegant, high-end headings)
+$kepler-3-variable: "kepler-3-variable", serif;
+$kepler-3-display-variable: "kepler-3-display-variable", serif; // Optimized for large headlines
+
+// Display/Accent option (Perfect for creative or stylistic headings)
+$filmtype-lacrosse: "filmtype-lacrosse", sans-serif;
+
+
+
+// ==========================================================================
+// Color Variables
+// ==========================================================================
+
+$dark: #2A2426;
+$grey: #4A5259;
+$light: #768595;
+$white: #FFFFFF;
+$border: #D1D0CE;
+$bgfill: #F6F5F5;
+$bglightblue: #B4C5E4;
+
+// ==========================================================================
+// Breakpoints
+// ==========================================================================
+
+$mobile: 480px;
+$tablet: 768px;
+$laptop: 1024px;
+$desktop: 1300px;
+
+// ==========================================================================
+// Mixins
+// ==========================================================================
+
+@mixin font-style($size, $weight, $line-height) {
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height;
+}
+
+@mixin bg($color, $url, $pos, $size, $repeat) {
+    background-color: $color;
+    background-image: url('#{$url}');
+    background-position: $pos;
+    background-size: $size;
+    background-repeat: $repeat;
+}
+
+@mixin max-width($breakpoint) {
+  @media (max-width: $breakpoint) {
+    @content;
+  }
+}
+
+
+
+.flex__column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  
+}
+
+.flex__row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;  
+}
+
+.lp__1080 {
+  max-width: 1250px;
+  width: 100%;
+  @include max-width($desktop) {
+    max-width: 95%;
+  }
+}
+
+.lp__full {
+  max-width: 100%;
+  width: 100%;
+}
+
+
+.container {
+  width: 100%;
+  max-width: 100%;
+}
+
+.elementor-element {
+  padding: 0;
+  .e-con-inner {
+    max-width: 100%;
+  }
+}
+
+.custom-product-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.custom-product-page-lower {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/* Gallery Layout */
+.product-gallery-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.product-gallery-wrapper .main-image-wrapper {
+  width: 100%;
+}
+
+.product-gallery-wrapper .main-image-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+}
+
+.product-gallery-wrapper .product-thumbnails-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.product-gallery-wrapper .product-thumbnails-gallery .thumb-item {
+  width: 80px;
+  height: 80px;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.product-gallery-wrapper .product-thumbnails-gallery .thumb-item:hover,
+.product-gallery-wrapper .product-thumbnails-gallery .thumb-item.active {
+  border-color: #000;
+}
+
+.product-gallery-wrapper .product-thumbnails-gallery .thumb-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Summary / Details Layout */
+.product-summary-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  .product-title {
+    font-family: $kepler-3-display-variable;
+    @include font-style(30px, 600, 40px);
+    color: $dark;
+    margin: 0;
+    text-transform: none;
+  }
+  .product-price {
+    font-family: $kepler-3-display-variable;
+    @include font-style(20px, 600, 20px);
+    .amount {
+      color: $dark !important;
+    }
+  }
+  .product-short-description {
+    color: $dark;
+    font-family: $source-sans-3-variable;
+    @include font-style(12px, 400, 16px);
+  }
+  .product-stock-status {
+    color: #3E7A4E;
+    font-family: $source-sans-3-variable;
+    @include font-style(12px, 5400, 16px);
+  }
+  .product-choice-chips {
+    ul {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 80px;
+      gap: 16px;
+      li {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: left;
+        border: 1px solid $border;
+        border-radius: 10px;
+        div {
+          color: $dark;
+          font-family: $source-sans-3-variable;
+          @include font-style(12px, 400, 16px);
+          &:first-child {
+            padding-bottom: 8px;
+          }
+          &:last-child {
+            justify-content: space-between;
+          }
+          strong {
+            font-family: $kepler-3-display-variable;
+            @include font-style(20px, 600, 20px);
+            color: $dark !important;
+          }
+          small {
+            color: $light;
+            font-family: $source-sans-3-variable;
+            @include font-style(12px, 400, 16px);
+          }
+        }
+      }
+    }
+  }
+  .product-blue-icons {
+    ul {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 80px;
+      gap: 16px;
+      li {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: $bglightblue;
+        border: 1px solid $border;
+        border-radius: 10px;
+        color: $dark;
+        font-family: $source-sans-3-variable;
+        @include font-style(12px, 400, 16px);
+        img {
+          height: 25px;
+          padding: 0 0 8px 0;
+        }
+      }
+    }
+  }
+}
+
+
+/* Meta (Brand & Tags) */
+.product-meta-details {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  padding: 12px 0;
+  .meta-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    &:first-child {
+      padding-right: 10px;
+      &::after {
+        position: absolute;
+        content: "";
+        right: 0;
+        height: 12px;
+        width: 1px;
+        background-color: $grey;
+      }
+    }
+    .meta-label {
+      color: $dark;
+      font-family: $source-sans-3-variable;
+      @include font-style(13px, 500, 13px);
+    }
+
+    .meta-value {
+      a {
+        color: $light;
+        font-family: $source-sans-3-variable;
+        @include font-style(13px, 500, 13px);
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+/* Add to Cart Button Reset */
+.product-add-to-cart-wrapper form.cart {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+}
+
+.product-add-to-cart-wrapper form.cart .quantity {
+  .minus,
+  .plus {
+    background-color: $bgfill;
+    border: 1 px solid $border;
+  }
+  .minus {
+    border-right: none;
+    border-radius: 30px 0 0 30px;
+  }
+  .plus {
+    border-left: none;
+    border-radius: 0 30px 30px 0;
+  }
+  input.qty {
+    width: 60px;
+    height: 36px;
+    padding: 0 8px;
+    text-align: center;
+    background-color: $bgfill;
+    border-top: 1px solid $border;
+    border-bottom: 1px solid $border;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+    font-size: 16px;
+  }
+}
+
+.product-add-to-cart-wrapper form.cart button.single_add_to_cart_button {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+  padding: 0 32px;
+  background-color: $grey;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.product-add-to-cart-wrapper form.cart button.single_add_to_cart_button:hover {
+  background-color: #333;
+}
+
+
+
+.product-social-share-icons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid $border;
+  border-bottom: 1px solid $border;
+  a {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    color: $grey;
+    padding: 35px 10px;
+    font-family: $source-sans-3-variable;
+    @include font-style(15px, 400, 15px);
+    &:first-child {
+      font-family: $kepler-3-display-variable;
+      @include font-style(20px, 600, 20px);
+      pointer-events: none;
+      cursor: default;
+      color: $dark;
+    }
+    img {
+      height: 20px;
+      padding-right: 10px;
+    }
+  }
+}
+
+
+
+
+.help {
+  margin-top: 35px;
+  .help__top {
+    position: relative;
+    small {
+      font-family: $source-sans-3-variable;
+      @include font-style(13px, 500, 13px);
+      color: $light;
+      padding: 0 0 35px 0;
+      text-transform: uppercase;
+      &:last-of-type {
+        position: absolute;
+        right: 0;
+        top: 50px;
+        padding: 0;
+        width: 33%;
+        text-transform: none;
+      }
+    }
+    p {
+      font-family: $source-sans-3-variable;
+      @include font-style(18px, 400, 24px);
+      color: $grey;
+      width: 60%;
+      strong {
+        font-family: $kepler-3-display-variable;
+        @include font-style(40px, 600, 40px);
+        color: $dark;
+      }
+    }
+    a {
+      position: absolute;
+      content: "";
+      right: 0;
+      bottom: 20px;
+      color: $light;
+      font-family: $source-sans-3-variable;
+      @include font-style(13px, 500, 13px);
+      margin: 15px auto 0 0;
+    }
+  }
+  ul {
+    &.thumbnails__3 {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      column-gap: 10px;
+      list-style: none;
+      padding: 0;
+      margin: 25px 0 0 0;
+      li {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        flex: 1;
+        border-radius: 10px;
+        background-color: $bgfill;
+        a {
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          flex: 1;
+          height: 350px;
+          border: 1px solid $border;
+          border-radius: 10px;
+          padding: 30px 20px;
+          strong {
+            font-family: $kepler-3-display-variable;
+            @include font-style(22px, 700, 22px);
+            color: $dark;
+            position: relative;
+            padding: 0 0 15px 0;
+          }
+          small {
+            position: relative;
+            @include font-style(12px, 500, 12px);
+            color: $light;
+            padding: 0 0 15px 0;
+            &:last-of-type {
+              padding: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.subscribe {
+  background-color: $bglightblue;
+  .subscribe__inner {
+    position: relative;
+    padding: 45px 0;
+    justify-content: space-between !important;
+    .subscribe__left {
+      display: flex;
+      flex-direction: column;
+      small {
+        font-family: $source-sans-3-variable;
+        @include font-style(13px, 500, 13px);
+        color: $dark;
+        padding: 0;
+        text-transform: none;
+      }
+      p {
+        font-family: $source-sans-3-variable;
+        @include font-style(18px, 400, 24px);
+        color: $grey;
+        strong {
+          font-family: $kepler-3-display-variable;
+          @include font-style(40px, 600, 40px);
+          color: $dark;
+        }
+      }
+    }
+    .subscribe__right {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 0 0 0 20px;
+      .mc4wp-form-theme {
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        .mc4wp-form-fields {
+          display: flex;
+          p {
+            display: flex;
+            &:nth-child(2),
+            &:nth-child(3) {
+              margin-left: 10px;
+            }
+            label {
+              display: none;
+            }
+            input[type="text"],
+            input[type="email"] {
+              display: flex;
+              background-color: $white;
+              border-radius: 10px;
+              border: 1px solid $border;
+              color: $light;
+            }
+            input[type="submit"] {
+              display: flex;
+              background-color: $grey;
+              border-radius: 10px;
+              font-family: $source-sans-3-variable;
+              @include font-style(13px, 500, 13px);
+              color: $white;
+              padding: 15px 20px;
+              margin: 0 auto 0 10px;
+              border: none;
+              white-space: nowrap;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

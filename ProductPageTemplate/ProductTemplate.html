@@ -1,0 +1,1140 @@
+<?php
+// Helper function to strip extra WooCommerce loop elements and output image, title, price, & stock badge only
+function render_custom_product_grid( $skus, $columns = 3 ) {
+    // Isolated filter handling to prevent polluting global shop loop state
+    $strip_loop_elements = function() {
+        remove_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_rating', 5 );
+        remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
+    };
+
+    $render_stock_badge = function() {
+        global $product;
+        if ( $product && $product->is_in_stock() ) {
+            echo '<div class="loop-stock-status in-stock">In Stock</div>';
+        }
+    };
+
+    // Attach modifications prior to shortcode render
+    add_action( 'woocommerce_before_shop_loop_item', $strip_loop_elements, 1 );
+    add_action( 'woocommerce_after_shop_loop_item_title', $render_stock_badge, 15 );
+
+    // Render shortcode without spaces in SKU list
+    $clean_skus = str_replace( ' ', '', $skus );
+    $shortcode  = sprintf( '[products skus="%s" columns="%d"]', esc_attr( $clean_skus ), (int) $columns );
+    $output     = do_shortcode( $shortcode );
+
+    // Clean up filters immediately after shortcode resolves
+    remove_action( 'woocommerce_before_shop_loop_item', $strip_loop_elements, 1 );
+    remove_action( 'woocommerce_after_shop_loop_item_title', $render_stock_badge, 15 );
+
+    return $output;
+}
+
+add_shortcode( 'custom_single_product_layout', function() {
+    if ( ! function_exists( 'is_product' ) ) {
+        return '';
+    }
+
+    $product_id = get_the_ID();
+    
+    // Fallback for Elementor preview mode
+    if ( get_post_type( $product_id ) === 'elementor_library' ) {
+        $page_settings = get_post_meta( $product_id, '_elementor_page_settings', true );
+        if ( ! empty( $page_settings['preview_id'] ) ) {
+            $product_id = $page_settings['preview_id'];
+        }
+    }
+
+    $product = wc_get_product( $product_id );
+    if ( ! $product ) {
+        return '';
+    }
+
+    global $post;
+    $post = get_post( $product->get_id() );
+    setup_postdata( $post );
+
+    $main_image_id  = $product->get_image_id();
+    $attachment_ids = $product->get_gallery_image_ids();
+
+    $brands = get_the_term_list( $product->get_id(), 'product_brand', '', ', ' );
+    if ( empty( $brands ) || is_wp_error( $brands ) ) {
+        $brands = $product->get_attribute( 'pa_brand' );
+    }
+    $tags = get_the_term_list( $product->get_id(), 'product_tag', '', ', ' );
+
+    ob_start();
+    ?>
+
+<!-- INLINE STYLES FOR THE TEMPLATE -->
+<style>
+.flex__column {
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
+
+.flex__row {
+display: flex;
+flex-direction: row;
+justify-content: center;
+}
+
+.lp__1080 {
+max-width: 1250px;
+width: 100%;
+}
+@media (max-width: 1300px) {
+.lp__1080 {
+max-width: 95%;
+}
+}
+
+.lp__full {
+max-width: 100%;
+width: 100%;
+}
+
+.container {
+width: 100%;
+max-width: 100%;
+}
+
+.elementor-element {
+padding: 0;
+}
+.elementor-element .e-con-inner {
+max-width: 100%;
+}
+
+.custom-product-page {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 32px;
+max-width: 1200px;
+margin: 0 auto;
+padding: 24px 16px;
+}
+
+.custom-product-page-lower {
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+/* Gallery Layout */
+.product-gallery-wrapper {
+display: flex;
+flex-direction: column;
+gap: 16px;
+}
+
+.product-gallery-wrapper .main-image-wrapper {
+width: 100%;
+}
+
+.product-gallery-wrapper .main-image-wrapper img {
+width: 100%;
+height: auto;
+display: block;
+border-radius: 6px;
+}
+
+.product-gallery-wrapper .product-thumbnails-gallery {
+display: flex;
+flex-wrap: wrap;
+gap: 12px;
+}
+
+.product-gallery-wrapper .product-thumbnails-gallery .thumb-item {
+width: 80px;
+height: 80px;
+border: 1px solid #e5e5e5;
+border-radius: 4px;
+overflow: hidden;
+cursor: pointer;
+transition: border-color 0.2s ease;
+}
+
+.product-gallery-wrapper .product-thumbnails-gallery .thumb-item:hover,
+.product-gallery-wrapper .product-thumbnails-gallery .thumb-item.active {
+border-color: #000;
+}
+
+.product-gallery-wrapper .product-thumbnails-gallery .thumb-item img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+
+/* Summary / Details Layout */
+.product-summary-wrapper {
+display: flex;
+flex-direction: column;
+gap: 20px;
+}
+.product-summary-wrapper .product-title {
+font-family: "kepler-3-display-variable", serif;
+font-size: 30px;
+font-weight: 600;
+line-height: 40px;
+color: #2A2426;
+margin: 0;
+text-transform: none;
+}
+.product-summary-wrapper .product-price {
+font-family: "kepler-3-display-variable", serif;
+font-size: 20px;
+font-weight: 600;
+line-height: 20px;
+}
+.product-summary-wrapper .product-price .amount {
+color: #2A2426 !important;
+}
+.product-summary-wrapper .product-short-description {
+color: #2A2426;
+font-family: "source-sans-3-variable", sans-serif;
+font-size: 12px;
+font-weight: 400;
+line-height: 16px;
+}
+.product-summary-wrapper .product-stock-status {
+color: #3E7A4E;
+font-family: "source-sans-3-variable", sans-serif;
+font-size: 12px;
+font-weight: 5400;
+line-height: 16px;
+}
+.product-summary-wrapper .product-choice-chips ul {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+grid-auto-rows: 80px;
+gap: 16px;
+}
+.product-summary-wrapper .product-choice-chips ul li {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: left;
+border: 1px solid #D1D0CE;
+border-radius: 10px;
+}
+.product-summary-wrapper .product-choice-chips ul li div {
+color: #2A2426;
+font-family: "source-sans-3-variable", sans-serif;
+font-size: 12px;
+font-weight: 400;
+line-height: 16px;
+}
+.product-summary-wrapper .product-choice-chips ul li div:first-child {
+padding-bottom: 8px;
+}
+.product-summary-wrapper .product-choice-chips ul li div:last-child {
+justify-content: space-between;
+}
+.product-summary-wrapper .product-choice-chips ul li div strong {
+font-family: "kepler-3-display-variable", serif;
+font-size: 20px;
+font-weight: 600;
+line-height: 20px;
+color: #2A2426 !important;
+}
+.product-summary-wrapper .product-choice-chips ul li div small {
+color: #768595;
+font-family: "source-sans-3-variable", sans-serif;
+font-size: 12px;
+font-weight: 400;
+line-height: 16px;
+}
+.product-summary-wrapper .product-blue-icons ul {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+grid-auto-rows: 80px;
+gap: 16px;
+}
+.product-summary-wrapper .product-blue-icons ul li {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+background-color: #B4C5E4;
+border: 1px solid #D1D0CE;
+border-radius: 10px;
+color: #2A2426;
+font-family: "source-sans-3-variable", sans-serif;
+font-size: 12px;
+font-weight: 400;
+line-height: 16px;
+}
+.product-summary-wrapper .product-blue-icons ul li img {
+height: 25px;
+padding: 0 0 8px 0;
+}
+
+/* Meta (Brand & Tags) */
+.product-meta-details {
+display: flex;
+flex-direction: row;
+gap: 8px;
+padding: 12px 0;
+}
+.product-meta-details .meta-item {
+position: relative;
+display: flex;
+align-items: center;
+gap: 8px;
+font-size: 14px;
+}
+.product-meta-details .meta-item:first-child {
+padding-right: 10px;
+}
+.product-meta-details .meta-item:first-child::after {
+position: absolute;
+content: "";
+right: 0;
+height: 12px;
+width: 1px;
+background-color: #4A5259;
+}
+.product-meta-details .meta-item .meta-label {
+color: #2A2426;
+font-family: "source-sans-3-variable", sans-serif;
+font-size: 13px;
+font-weight: 500;
+line-height: 13px;
+}
+.product-meta-details .meta-item .meta-value a {
+color: #768595;
+font-family: "source-sans-3-variable", sans-serif;
+font-size: 13px;
+font-weight: 500;
+line-height: 13px;
+text-decoration: none;
+}
+.product-meta-details .meta-item .meta-value a:hover {
+text-decoration: underline;
+}
+
+/* Add to Cart Button Reset */
+.product-add-to-cart-wrapper form.cart {
+display: flex;
+flex-direction: row;
+gap: 16px;
+align-items: center;
+}
+
+.product-add-to-cart-wrapper form.cart .quantity .minus,
+.product-add-to-cart-wrapper form.cart .quantity .plus {
+background-color: #F6F5F5;
+border: 1 px solid #D1D0CE;
+}
+.product-add-to-cart-wrapper form.cart .quantity .minus {
+border-right: none;
+border-radius: 30px 0 0 30px;
+}
+.product-add-to-cart-wrapper form.cart .quantity .plus {
+border-left: none;
+border-radius: 0 30px 30px 0;
+}
+.product-add-to-cart-wrapper form.cart .quantity input.qty {
+width: 60px;
+height: 36px;
+padding: 0 8px;
+text-align: center;
+background-color: #F6F5F5;
+border-top: 1px solid #D1D0CE;
+border-bottom: 1px solid #D1D0CE;
+border-left: none;
+border-right: none;
+border-radius: 0;
+font-size: 16px;
+}
+
+.product-add-to-cart-wrapper form.cart button.single_add_to_cart_button {
+display: flex;
+flex: 1;
+justify-content: center;
+align-items: center;
+height: 48px;
+padding: 0 32px;
+background-color: #4A5259;
+color: #fff;
+font-weight: 600;
+border: none;
+border-radius: 12px;
+cursor: pointer;
+transition: background-color 0.2s ease;
+}
+
+.product-add-to-cart-wrapper form.cart button.single_add_to_cart_button:hover {
+background-color: #333;
+}
+
+.product-social-share-icons {
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+border-top: 1px solid #D1D0CE;
+border-bottom: 1px solid #D1D0CE;
+}
+.product-social-share-icons a {
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+flex: 1;
+color: #4A5259;
+padding: 35px 10px;
+font-family: "source-sans-3-variable", sans-serif;
+font-size: 15px;
+font-weight: 400;
+line-height: 15px;
+}
+.product-social-share-icons a:first-child {
+font-family: "kepler-3-display-variable", serif;
+font-size: 20px;
+font-weight: 600;
+line-height: 20px;
+pointer-events: none;
+cursor: default;
+color: #2A2426;
+}
+.product-social-share-icons a img {
+height: 20px;
+padding-right: 10px;
+}
+
+.help {
+margin-top: 35px;
+}
+.help .help__top {
+position: relative;
+}
+.help .help__top small {
+font-family: "source-sans-3-variable", sans-serif;
+font-size: 13px;
+font-weight: 500;
+line-height: 13px;
+color: #768595;
+padding: 0 0 35px 0;
+text-transform: uppercase;
+}
+.help .help__top small:last-of-type {
+position: absolute;
+right: 0;
+top: 50px;
+padding: 0;
+width: 33%;
+text-transform: none;
+}
+.help .help__top p {
+font-family: "source-sans-3-variable", sans-serif;
+font-size: 18px;
+font-weight: 400;
+line-height: 24px;
+color: #4A5259;
+width: 60%;
+}
+.help .help__top p strong {
+font-family: "kepler-3-display-variable", serif;
+font-size: 40px;
+font-weight: 600;
+line-height: 40px;
+color: #2A2426;
+}
+.help .help__top a {
+position: absolute;
+content: "";
+right: 0;
+bottom: 20px;
+color: #768595;
+font-family: "source-sans-3-variable", sans-serif;
+font-size: 13px;
+font-weight: 500;
+line-height: 13px;
+margin: 15px auto 0 0;
+}
+.help ul.thumbnails__3 {
+display: flex;
+flex-direction: row;
+justify-content: center;
+column-gap: 10px;
+list-style: none;
+padding: 0;
+margin: 25px 0 0 0;
+}
+.help ul.thumbnails__3 li {
+display: flex;
+flex-direction: column;
+position: relative;
+flex: 1;
+border-radius: 10px;
+background-color: #F6F5F5;
+}
+.help ul.thumbnails__3 li a {
+display: flex;
+flex-direction: column;
+position: relative;
+flex: 1;
+height: 350px;
+border: 1px solid #D1D0CE;
+border-radius: 10px;
+padding: 30px 20px;
+}
+.help ul.thumbnails__3 li a strong {
+font-family: "kepler-3-display-variable", serif;
+font-size: 22px;
+font-weight: 700;
+line-height: 22px;
+color: #2A2426;
+position: relative;
+padding: 0 0 15px 0;
+}
+.help ul.thumbnails__3 li a small {
+position: relative;
+font-size: 12px;
+font-weight: 500;
+line-height: 12px;
+color: #768595;
+padding: 0 0 15px 0;
+}
+.help ul.thumbnails__3 li a small:last-of-type {
+padding: 0;
+}
+
+.subscribe {
+background-color: #B4C5E4;
+}
+.subscribe .subscribe__inner {
+position: relative;
+padding: 45px 0;
+justify-content: space-between !important;
+}
+.subscribe .subscribe__inner .subscribe__left {
+display: flex;
+flex-direction: column;
+}
+.subscribe .subscribe__inner .subscribe__left small {
+font-family: "source-sans-3-variable", sans-serif;
+font-size: 13px;
+font-weight: 500;
+line-height: 13px;
+color: #2A2426;
+padding: 0;
+text-transform: none;
+}
+.subscribe .subscribe__inner .subscribe__left p {
+font-family: "source-sans-3-variable", sans-serif;
+font-size: 18px;
+font-weight: 400;
+line-height: 24px;
+color: #4A5259;
+}
+.subscribe .subscribe__inner .subscribe__left p strong {
+font-family: "kepler-3-display-variable", serif;
+font-size: 40px;
+font-weight: 600;
+line-height: 40px;
+color: #2A2426;
+}
+.subscribe .subscribe__inner .subscribe__right {
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 0 0 0 20px;
+}
+.subscribe .subscribe__inner .subscribe__right .mc4wp-form-theme {
+display: flex;
+flex: 1;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+}
+.subscribe .subscribe__inner .subscribe__right .mc4wp-form-theme .mc4wp-form-fields {
+display: flex;
+}
+.subscribe .subscribe__inner .subscribe__right .mc4wp-form-theme .mc4wp-form-fields p {
+display: flex;
+}
+.subscribe .subscribe__inner .subscribe__right .mc4wp-form-theme .mc4wp-form-fields p:nth-child(2), .subscribe
+.subscribe__inner .subscribe__right .mc4wp-form-theme .mc4wp-form-fields p:nth-child(3) {
+margin-left: 10px;
+}
+.subscribe .subscribe__inner .subscribe__right .mc4wp-form-theme .mc4wp-form-fields p label {
+display: none;
+}
+.subscribe .subscribe__inner .subscribe__right .mc4wp-form-theme .mc4wp-form-fields p input[type=text],
+.subscribe .subscribe__inner .subscribe__right .mc4wp-form-theme .mc4wp-form-fields p input[type=email] {
+display: flex;
+background-color: #FFFFFF;
+border-radius: 10px;
+border: 1px solid #D1D0CE;
+color: #768595;
+}
+.subscribe .subscribe__inner .subscribe__right .mc4wp-form-theme .mc4wp-form-fields p input[type=submit] {
+display: flex;
+background-color: #4A5259;
+border-radius: 10px;
+font-family: "source-sans-3-variable", sans-serif;
+font-size: 13px;
+font-weight: 500;
+line-height: 13px;
+color: #FFFFFF;
+padding: 15px 20px;
+margin: 0 auto 0 10px;
+border: none;
+white-space: nowrap;
+}
+
+/*# sourceMappingURL=ProductPageStyles.css.map */
+
+</style>
+
+
+    <!-- HTML STRUCTURE -->
+    <article class="custom-product-page">
+
+      <!-- Left Column: Custom Product Gallery -->
+      <div class="product-gallery-wrapper woocommerce">
+        
+        <!-- Main Featured Image -->
+        <div class="woocommerce-product-gallery__image main-image-wrapper">
+          <?php if ( $main_image_id ) : ?>
+            <?php echo wp_get_attachment_image( $main_image_id, 'full', false, array( 'class' => 'wp-post-image' ) ); ?>
+          <?php else : ?>
+            <img src="<?php echo esc_url( wc_placeholder_img_src( 'full' ) ); ?>" alt="Placeholder" />
+          <?php endif; ?>
+        </div>
+
+        <!-- Thumbnail Strip -->
+        <?php if ( ! empty( $attachment_ids ) ) : ?>
+          <div class="product-thumbnails-gallery">
+            
+            <?php if ( $main_image_id ) : ?>
+              <div class="thumb-item active">
+                <?php echo wp_get_attachment_image( $main_image_id, 'thumbnail' ); ?>
+              </div>
+            <?php endif; ?>
+
+            <?php foreach ( $attachment_ids as $attachment_id ) : ?>
+              <div class="thumb-item">
+                <?php echo wp_get_attachment_image( $attachment_id, 'thumbnail' ); ?>
+              </div>
+            <?php endforeach; ?>
+
+          </div>
+        <?php endif; ?>
+
+      </div>
+
+      <!-- Right Column: Product Details -->
+      <div class="product-summary-wrapper woocommerce">
+        
+        <h1 class="product-title"><?php echo get_the_title( $product->get_id() ); ?></h1>
+        
+        <div class="product-short-description">
+          <?php echo apply_filters( 'woocommerce_short_description', $product->get_short_description() ); ?>
+        </div>
+
+        <!-- Meta (Brand & Tags) -->
+        <div class="product-meta-details">
+          <?php if ( ! empty( $brands ) && ! is_wp_error( $brands ) ) : ?>
+            <div class="meta-item product-brand">
+              <span class="meta-label">Brand:</span>
+              <span class="meta-value"><?php echo $brands; ?></span>
+            </div>
+          <?php endif; ?>
+
+          <?php if ( ! empty( $tags ) && ! is_wp_error( $tags ) ) : ?>
+            <div class="meta-item product-tags">
+              <span class="meta-label">Tags:</span>
+              <span class="meta-value"><?php echo $tags; ?></span>
+            </div>
+          <?php endif; ?>
+        </div>
+
+        <div class="product-price">
+          <?php echo $product->get_price_html(); ?>
+        </div>
+
+        <!-- Stock Status -->
+        <?php if ( $product->is_in_stock() ) : ?>
+          <div class="product-stock-status in-stock">
+            &bull; In Stock - ready to ship
+          </div>
+        <?php endif; ?>
+
+        <!-- Choose Your Pack - Choice Chips -->
+         <div class="product-choice-chips">
+          <ul>
+            <li>
+              <div>100 Pack</div>
+              <div>
+                <strong>$39</strong>
+                <small>Save 12%</small>
+              </div>
+            </li>
+            <li>
+              <div>250 Pack</div>
+              <div>
+                <strong>$89</strong>
+                <small>Save 18%</small>
+              </div>
+            </li>
+            <li>
+              <div>500 Pack</div>
+              <div>
+                <strong>$159</strong>
+                <small>Best Value</small>
+              </div>
+            </li>
+            <li>
+              <div>1000 Pack</div>
+              <div>
+                <strong>$289</strong>
+                <small>Save 24%</small>
+              </div>
+            </li>
+            <li>
+              <div>Church Pack</div>
+              <div>
+                <strong>$135</strong>
+                <small>Save 20%</small>
+              </div>
+            </li>
+            <li>
+              <div>Wholesale Case</div>
+              <div>
+                <strong>$499</strong>
+                <small>Save 40%</small>
+              </div>
+            </li>
+          </ul>
+         </div>
+
+        <!-- Add to Cart -->
+        <div class="product-add-to-cart-wrapper">
+          <?php woocommerce_template_single_add_to_cart(); ?>
+        </div>
+
+        <div class="product-blue-icons">
+          <ul>
+            <li>
+            <img src="https://swansoninc.com/wp-content/uploads/Icon-Truck.png" alt="Ships Today">
+            Ships Today
+            </li>
+            <li>
+            <img src="https://swansoninc.com/wp-content/uploads/Icon-Secure.png" alt="Secure Checkout">
+            Secure Checkout
+            </li>
+            <li>
+            <img src="https://swansoninc.com/wp-content/uploads/Icon-Flag.png" alt="Serving Since 1935">
+            Serving Since 1935
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </article>
+    <article class="custom-product-page-lower">
+
+
+    <?php
+    // Dynamic product variables for share links
+    $share_url   = rawurlencode( get_permalink( $product->get_id() ) );
+    $share_title = rawurlencode( get_the_title( $product->get_id() ) );
+
+    // Fetch main image URL for Pinterest
+    $image_id  = $product->get_image_id();
+    $image_src = $image_id ? wp_get_attachment_image_url( $image_id, 'full' ) : '';
+    $share_img = rawurlencode( $image_src );
+    ?>
+
+    <!-- Social Media Share Icons -->
+    <section class="product-social-share-icons lp__full">
+
+        <a href="#">
+          Share
+        </a>
+
+        <!-- Tweet / X -->
+        <a href="https://twitter.com/intent/tweet?text=<?php echo $share_title; ?>&url=<?php echo $share_url; ?>" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          title="Tweet this product" 
+          class="share-icon-link">
+          <img src="https://swansoninc.com/wp-content/uploads/IconSocial-X.png" alt="Tweet this product" />
+          Tweet this product
+        </a>
+
+        <!-- Facebook -->
+        <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $share_url; ?>" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          title="Share on Facebook" 
+          class="share-icon-link">
+          <img src="https://swansoninc.com/wp-content/uploads/IconSocial-FB.png" alt="Share on Facebook" />
+          Share on Facebook
+        </a>
+
+        <!-- Mail -->
+        <a href="mailto:?subject=<?php echo rawurlencode( 'Check out this product: ' . get_the_title( $product->get_id() ) ); ?>&body=<?php echo rawurlencode( 'I thought you might like this: ' . get_permalink( $product->get_id() ) ); ?>" 
+          title="Mail this product" 
+          class="share-icon-link">
+          <img src="https://swansoninc.com/wp-content/uploads/IconSocial-Mail.png" alt="Mail this product" />
+          Mail this product
+        </a>
+
+        <!-- Pinterest -->
+        <a href="https://pinterest.com/pin/create/button/?url=<?php echo $share_url; ?>&media=<?php echo $share_img; ?>&description=<?php echo $share_title; ?>" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          title="Pin this product" 
+          class="share-icon-link">
+          <img src="https://swansoninc.com/wp-content/uploads/IconSocial-PT.png" alt="Pin this product" />
+          Pin this product
+        </a>
+
+    </section>
+
+    <!-- Have You Considered Section -->
+    <section class="custom-product-section have-you-considered">
+      <h3 class="section-title">Have You Considered</h3>
+      <div class="section-content">
+        <?php echo render_custom_product_grid('80220,79921,79910', 3 ); ?>
+      </div>
+    </section>
+
+    <!-- Product Highlights -->
+    <section class="product-highlights">
+          <div class="product-highlights-top">
+            <small>Why Buyers Choose It</small>
+            <strong>Product Highlights</strong>
+            <p>Eight things worth knowing before it reaches your table — the details that make Remembrance a trusted choice for congregations of every size.</p>
+          </div>
+          <ul class="product-highlights-bottom">
+            <li>
+              <strong>All-in-One Design</strong>
+              <p>Bread and grape juice conveniently combined in one communion cup.</p>
+            </li>
+            <li>
+              <strong>Standard Tray Fit</strong>
+              <p>Compatible with all standard communion serving trays.</p>
+            </li>
+            <li>
+              <strong>Minimized Mess</strong>
+              <p>Designed to reduce spills during preparation and service.</p>
+            </li>
+            <li>
+              <strong>Simple Cleanup</strong>
+              <p>Disposable cups allow for quick and hassle-free cleanup.</p>
+            </li>
+            <li>
+              <strong>Germ-Free & Safe</strong>
+              <p>Individually sealed to maintain freshness and hygiene.</p>
+            </li>
+            <li>
+              <strong>Durable Plastic</strong>
+              <p>Made from strong, crystal-clear plastic for reliable use.</p>
+            </li>
+            <li>
+              <strong>Airtight Seal</strong>
+              <p>Secure foil seal helps preserve freshness until opened.</p>
+            </li>
+            <li>
+              <strong>Pack of 1,000</strong>
+              <p>Bulk quantity ideal for churches, ministries and large congregations.</p>
+            </li>
+          </ul>
+    </section>
+
+    <!-- The Story -->
+    <section class="product-story">
+      <div class="product-story-left">
+        <small>The Story</small>
+        <strong>A quiet moment, beautifully prepared</strong>
+        <p>Eight things worth knowing before it reaches your table — the details that make Remembrance a trusted choice for congregations of every size.</p>
+        <?php if ( $main_image_id ) : ?>
+        <?php echo wp_get_attachment_image( $main_image_id, 'full', false, array( 'class' => 'wp-post-image' ) ); ?>
+        <?php else : ?>
+          <img src="<?php echo esc_url( wc_placeholder_img_src( 'full' ) ); ?>" alt="Placeholder" />
+        <?php endif; ?>
+      </div>
+      <div class="product-story-right">
+        <p>Each Remembrance set seals a measure of 100% grape juice together with a wheat communion wafer, so every element arrives fresh, sanitary and ready to serve. No pouring, no measuring, no cleanup — just a reverent, consistent experience for every person at the table.</p>
+        <p>From small groups of a dozen to sanctuaries of thousands, the pack tiers scale with your congregation. Volunteers can set the table in minutes, and the sealed format keeps everything dignified from the storeroom to the front row.</p>
+        <p>“Do this in remembrance of me.” Everything we make for the table begins with that call.</p>
+        <ul>
+          <li>
+            <strong>Ready in minutes</strong>
+            <p>Peel and serve — no prep line required.</p>
+          </li>
+          <li>
+            <strong>Sealed & sanitary</strong>
+            <p>Individually sealed for freshness and peace of mind.</p>
+          </li>
+          <li>
+            <strong>Scales to any size</strong>
+            <p>From small groups to multi-service Sundays.</p>
+          </li>
+          <li>
+            <strong>Dignified presentation</strong>
+            <p>Gold-foil lids that honor the moment.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- How to Use -->
+     <section class="product-how-to-use">
+      <small></small>
+      <strong></strong>
+      <p></p>
+      <ul>
+        <li>
+          <strong>Open</strong>
+          <p>Lift the cups from the carton and place them on your serving trays.</p>
+          <p>Tip: Chill ahead for warm days</p>
+        </li>
+        <li>
+          <strong>Prepare</strong>
+          <p>Arrange trays at the front or hand sets to your serving team.</p>
+          <p>Tip: One tray serves ~40</p>
+        </li>
+        <li>
+          <strong>Use</strong>
+          <p>Peel the top foil for the wafer, then the second for the juice.</p>
+          <p>Tip: Guide first timers gently</p>
+        </li>
+        <li>
+          <strong>Store & Dispose</strong>
+          <p>Recycle used cups and reseal unused sets for next time.</p>
+          <p>Keep sealed sets cool & dry</p>
+        </li>
+      </ul>
+     </section>
+
+    <!-- Product Specifications -->
+    <section class="product-specs">
+      <small>The Details</small>
+      <strong>Product Specifications</strong>
+      <p>Everything you need for purchasing, storage and reordering — at a glance.</p>
+      <ul>
+        <li>
+          <small>SKU</small>
+          <strong>SWN-COM-500</strong>
+        </li>
+
+        <li>
+          <small>UPC</small>
+          <strong>0 34567 89012 3</strong>
+        </li>
+
+        <li>
+          <small>Brand</small>
+          <strong>One Body</strong>
+        </li>
+
+        <li>
+          <small>Material</small>
+          <strong>BPA-free food-safe PET</strong>
+        </li>
+
+        <li>
+          <small>Cup Dimensions</small>
+          <strong>1.8" dia x 2.1" H</strong>
+        </li>
+
+        <li>
+          <small>Net Weight</small>
+          <strong>3.2 lb (500 ct)</strong>
+        </li>
+
+        <li>
+          <small>Pack Quantity</small>
+          <strong>500 pre-filled sets</strong>
+        </li>
+
+        <li>
+          <small>Color</small>
+          <strong>Clear / gold foil lid</strong>
+        </li>
+
+        <li>
+          <small>Country of Origin</small>
+          <strong>USA</strong>
+        </li>
+
+        <li>
+          <small>Shelf Life</small>
+          <strong>18 months sealed</strong>
+        </li>
+
+        <li>
+          <small>Storage</small>
+          <strong>Cool, dry place</strong>
+        </li>
+
+        <li>
+          <small>Contents</small>
+          <strong>100% grape juice + wheat wafer</strong>
+        </li>
+
+        <li>
+          <small>Shipping Weight</small>
+          <strong>4.1 lb</strong>
+        </li>
+
+        <li>
+          <small>Case Pack</small>
+          <strong>8 boxes / case</strong>
+        </li>
+
+        <li>
+          <small>Warranty</small>
+          <strong>Satisfaction guarantee</strong>
+        </li>
+
+        <li>
+          <small>Packaging</small>
+          <strong>Recyclable carton</strong>
+        </li>
+
+      </ul>
+    </section>
+
+    <!-- FAQ -->
+    <section class="product-faq">
+      <div class="product-faq-left">
+        <small>Answers</small>
+        <strong>Frequently Asked Questions</strong>
+        <p>Can’t find what you need? Our ministry team is glad to help.</p>
+      </div>
+      <ul class="faq-list">
+        <li class="faq-item">
+          <details>
+            <summary>What is included?</summary>
+            <div class="faq-answer">
+              <p>Each set includes a sealed cup of 100% grape juice and a wheat communion wafer, packaged together in a single peel-away unit. The 500 pack ships in a recyclable carton with serving instructions.</p>
+            </div>
+          </details>
+        </li>
+        <li class="faq-item">
+          <details>
+            <summary>How many cups are included?</summary>
+          </details>
+        </li>
+        <li class="faq-item">
+          <details>
+            <summary>How should I store the product?</summary>
+          </details>
+        </li>
+        <li class="faq-item">
+          <details>
+            <summary>Can churches receive discounts?</summary>
+          </details>
+        </li>
+        <li class="faq-item">
+          <details>
+            <summary>Do you offer wholesale pricing?</summary>
+          </details>
+        </li>
+        <li class="faq-item">
+          <details>
+            <summary>Can I order in bulk?</summary>
+          </details>
+        </li>
+        <li class="faq-item">
+          <details>
+            <summary>Can I customize this item?</summary>
+          </details>
+        </li>
+        <li class="faq-item">
+          <details>
+            <summary>Shipping information</summary>
+          </details>
+        </li>
+        <li class="faq-item">
+          <details>
+            <summary>Returns</summary>
+          </details>
+        </li>
+      </ul>
+    </section>
+
+
+    <!-- Related Products Section -->
+    <section class="custom-product-section related-products">
+      <h3 class="section-title">Related Products</h3>
+      <div class="section-content">
+        <?php echo render_custom_product_grid('56558,56553,56528,56570', 4 ); ?>
+      </div>
+    </section>
+
+    <!-- You May Also Like Section -->
+    <section class="custom-product-section you-may-also-like">
+      <h3 class="section-title">You May Also Like</h3>
+      <div class="section-content">
+        <?php echo render_custom_product_grid('87758,52624,51094', 3 ); ?>
+      </div>
+    </section>
+
+    <!-- Subscribe -->
+    <section class="subscribe lp__full flex__row">
+      <div class="subscribe__inner lp__1080 flex__row">
+        <div class="subscribe__left">
+          <small>Newsletter</small>
+          <p><strong>Seasonal Ideas & New Arrivals</strong></p>
+          <small>Communion refills, holiday planning and members-only offers — thoughtfully sent, never spammy.</small>
+        </div>
+        <div class="subscribe__right">
+          [mc4wp_form id=94370]
+        </div>
+      </div>
+    </section>
+
+    <!-- Help -->
+    <section class="help lp__1080 flex__column">
+      <div class="help__top flex__column">
+        <small>Need Help?</small>
+
+        <p><strong>Need Help Finding the Perfect Product?</strong></p>
+
+        <small>Our team is here to answer questions, recommend products, and help you find meaningful Christian gifts for every occasion.</small>
+
+      </div>
+      <ul class="flex__row thumbnails__3">
+        <li>
+          <a href="tel:+18005550140">
+            <small>Call</small>
+            <strong>615-896-4114</strong>
+            <small>Mon-Fri, 8am-6pm CT</small>
+          </a>
+        </li>
+        <li>
+          <a href="mailto:sales@swansoninc.com">
+            <small>Email</small>
+            <strong>sales@swansoninc.com</strong>
+            <small>Replies within one business day</small>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <small>Live Chat</small>
+            <strong>Chat with us</strong>
+            <small>Available during business hours</small>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    </article>
+
+    <?php
+    wp_reset_postdata();
+    return ob_get_clean();
+});
