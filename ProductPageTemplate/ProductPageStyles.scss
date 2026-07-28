@@ -396,6 +396,399 @@ $desktop: 1300px;
 }
 
 
+.product-highlights {
+  border-top: 1px solid $border;
+  border-bottom: 1px solid $border;
+  padding: 40px 0 35px 0;
+  display: flex;
+  justify-content: center;
+  .product-highlights-inner {
+    .product-highlights-left {
+      position: relative;
+      flex: 1;
+      justify-content: flex-start;
+      small {
+        font-family: $source-sans-3-variable;
+        @include font-style(13px, 500, 13px);
+        color: $light;
+        padding: 0 0 35px 0;
+        text-transform: uppercase;
+      }
+      strong {
+        font-family: $kepler-3-display-variable;
+        @include font-style(40px, 600, 40px);
+        color: $dark;
+        padding-bottom: 25px;
+      }
+      p {
+        font-family: $source-sans-3-variable;
+        @include font-style(12px, 400, 16px);
+        color: $grey;
+      } 
+    }
+    .product-highlights-right {
+      display: flex;
+      width: 66%;
+      ol {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 100px;
+        gap: 16px;
+        list-style-type: decimal-leading-zero;
+        padding-left: 2rem;
+        border-top: 1px solid $border;
+        padding-top: 25px;
+        li {
+          border-bottom: 1px solid $border;
+          strong {
+            font-family: $kepler-3-display-variable;
+            @include font-style(20px, 600, 20px);
+            color: $dark;
+            padding-bottom: 15px;
+          }
+          p {
+            font-family: $source-sans-3-variable;
+            @include font-style(12px, 400, 16px);
+            color: $grey;
+          }
+        }
+      }
+    }
+  }
+}
+
+.product-story {
+  border-bottom: 1px solid $border;
+  padding: 40px 0 35px 0;
+  display: flex;
+  justify-content: center;
+  .product-story-inner {
+    .product-story-left {
+      position: relative;
+      flex: 1;
+      justify-content: flex-start;
+      small {
+        font-family: $source-sans-3-variable;
+        @include font-style(13px, 500, 13px);
+        color: $light;
+        padding: 0 0 35px 0;
+        text-transform: uppercase;
+      }
+      strong {
+        font-family: $kepler-3-display-variable;
+        @include font-style(40px, 600, 40px);
+        color: $dark;
+        padding-bottom: 25px;
+      }
+      p {
+        font-family: $source-sans-3-variable;
+        @include font-style(12px, 400, 16px);
+        color: $grey;
+      }
+      .img-container {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        border-radius: 20px;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+          display: block;
+        }
+      }
+    }
+    .product-story-right {
+      display: flex;
+      width: 66%;
+      justify-content: flex-start;
+      padding: 60px 0 0 40px;
+      p {
+        padding: 10px 0;
+        font-family: $source-sans-3-variable;
+        &:nth-child(1) {
+          @include font-style(13px, 500, 17px);
+          color: $dark;
+        }
+        &:nth-child(2) {
+          @include font-style(13px, 400, 17px);
+          color: grey;
+        }
+        &:nth-child(3) {
+          @include font-style(14px, 400, 16px);
+          color: $dark;
+          font-style: italic;
+          border: 1px solid $border;
+          background-color: $bgfill;
+          padding: 14px 10px;
+        }
+      }
+      ul {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, auto); /* Adjust height or use fixed px like 100px */
+        gap: 16px 24px; /* Row gap / Column gap */
+        list-style: none;
+        padding: 0;
+        margin: 0;
+          li {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+            font-size: 16px;
+            text-align: left;
+            &::before {
+              content: "\2713"; /* Unicode checkmark character (✓) */
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 24px;
+              height: 24px;
+              font-size: 14px;
+              color: $grey;
+              flex-shrink: 0;
+              flex-direction: column;
+              align-self: flex-start;
+            }
+            strong {
+              font-family: $kepler-3-display-variable;
+              @include font-style(12px, 500, 16px);
+              color: $dark;
+            }
+            p {
+              font-family: $source-sans-3-variable;
+              @include font-style(12px, 400, 16px);
+              color: grey;
+            }
+          }
+      }
+    }
+  }
+}
+
+.product-how-to-use {
+  border-bottom: 1px solid $border;
+  padding: 40px 0 35px 0;
+  display: flex;
+  justify-content: center;
+  .product-how-to-use-inner {
+    small {
+      font-family: $source-sans-3-variable;
+      @include font-style(13px, 500, 13px);
+      color: $light;
+      padding: 0 0 35px 0;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    strong {
+      font-family: $kepler-3-display-variable;
+      @include font-style(40px, 600, 40px);
+      color: $dark;
+      padding-bottom: 25px;
+      text-align: center;
+    }
+    p {
+      font-family: $source-sans-3-variable;
+      @include font-style(12px, 400, 16px);
+      color: $grey;
+      text-align: center;
+    }
+    ul {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, auto);
+      gap: 0;
+      list-style: none;
+      counter-reset: grid-counter;
+      padding: 0;
+      margin: 0;
+      li {
+        counter-increment: grid-counter;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+        font-size: 16px;
+        padding: 20px;
+        border: 1px solid $border;
+        strong {
+          font-family: $kepler-3-display-variable;
+          @include font-style(30px, 600, 30px);
+          color: $dark;
+          padding-bottom: 8px;
+        }
+        p {
+          font-family: $source-sans-3-variable;
+          @include font-style(12px, 400, 16px);
+          color: $dark;
+          margin-bottom: 8px;
+          &:last-of-type {
+            color: $grey;
+            font-style: italic;
+            margin-bottom: 0;
+          }
+        }
+
+        &::before {
+          content: counter(grid-counter);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 28px;
+          height: 28px;
+          background-color: $bglightblue;
+          color: $dark;
+          border-radius: 50%;
+          font-family: $source-sans-3-variable;
+          @include font-style(13px, 500, 13px);
+        }
+      }
+    }
+  }
+}
+
+.product-specs {
+  border-bottom: 1px solid $border;
+  padding: 40px 0 35px 0;
+  display: flex;
+  justify-content: center;
+  .product-specs-inner {
+    .product-specs-inner-left {
+      position: relative;
+      flex: 1;
+      justify-content: flex-start;
+      small {
+        font-family: $source-sans-3-variable;
+        @include font-style(13px, 500, 13px);
+        color: $light;
+        padding: 0 0 35px 0;
+        text-transform: uppercase;
+      }
+      strong {
+        font-family: $kepler-3-display-variable;
+        @include font-style(40px, 600, 40px);
+        color: $dark;
+        padding-bottom: 25px;
+      }
+      p {
+        font-family: $source-sans-3-variable;
+        @include font-style(12px, 400, 16px);
+        color: $grey;
+      }
+    }
+    .product-specs-inner-right {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      ul {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0 24px;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        li {
+          position: relative;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          padding: 12px 0;
+          border-bottom: 1px solid $border;
+          &:nth-child(odd) {
+            margin-right: 15px;
+            &::after {
+              position: absolute;
+              content: "";
+              right: -30px;
+              top: 0;
+              bottom: 0;
+              width: 1px;
+              background-color: $border;
+            }
+          }
+          &:nth-child(even) {
+            margin-left: 15px;
+          }
+          small {
+            font-family: $kepler-3-display-variable;
+            @include font-style(12px, 400, 16px);
+            color: $grey;
+          }
+          strong {
+            font-family: $source-sans-3-variable;
+            @include font-style(13px, 400, 16px);
+            color: $dark;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+.product-faq {
+  border-bottom: 1px solid $border;
+  padding: 40px 0 35px 0;
+  display: flex;
+  justify-content: center;
+  .product-faq-inner {
+    .product-faq-inner-left {
+      position: relative;
+      flex: 1;
+      justify-content: flex-start;
+      small {
+        font-family: $source-sans-3-variable;
+        @include font-style(13px, 500, 13px);
+        color: $light;
+        padding: 0 0 35px 0;
+        text-transform: uppercase;
+      }
+      strong {
+        font-family: $kepler-3-display-variable;
+        @include font-style(40px, 600, 40px);
+        color: $dark;
+        padding-bottom: 25px;
+      }
+      p {
+        font-family: $source-sans-3-variable;
+        @include font-style(12px, 400, 16px);
+        color: $grey;
+      }      
+    }
+    .product-faq-inner-right {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      ul {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 8px;
+        border-bottom: 1px solid $border;
+        summary {
+          font-family: $source-sans-3-variable;
+          @include font-style(14px, 400, 20px);
+          color: $dark;
+        }
+        .faq-answer {
+          font-family: $source-sans-3-variable;
+          @include font-style(14px, 400, 20px);
+          color: $grey;
+          padding: 8px;
+          p {
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
 
 
 .help {
