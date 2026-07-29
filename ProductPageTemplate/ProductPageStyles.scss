@@ -791,6 +791,157 @@ $desktop: 1300px;
 
 
 
+.custom-product-section {
+  border-bottom: 1px solid $border;
+  padding: 40px 0 35px 0;
+  display: flex;
+  justify-content: center;
+  .custom-product-section-inner {
+    justify-content: flex-start;
+    small {
+      font-family: $source-sans-3-variable;
+      @include font-style(13px, 500, 13px);
+      color: $light;
+      padding: 0 0 35px 0;
+      text-transform: uppercase;
+    }
+    strong {
+      font-family: $kepler-3-display-variable;
+      @include font-style(40px, 600, 40px);
+      color: $dark;
+      padding-bottom: 25px;
+    }
+    .custom-product-section-products {
+      margin-top: 20px;
+      .woocommerce {
+        width: 100%;
+        ul {
+          display: flex;
+          flex-direction: row;
+          column-gap: 30px;
+          &.products {
+            li {
+              &.product {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                border-radius: 20px;
+                overflow: hidden;
+                background-color: $bgfill;
+                padding: 0;
+                border: 1px solid $border;
+                .product-inner {
+                  padding: 0;
+                }
+                .in-stock {
+                  position: absolute;
+                  bottom: 20px;
+                  right: 20px;
+                  font-family: $source-sans-3-variable;
+                  @include font-style(12px, 500, 12px);
+                  color: $light;
+                }
+                .woo-entry-inner {
+                  display: block;
+                }
+                .image-wrap {
+                  margin: 0;
+                }
+                .woo-entry-image {
+                  height: 250px;
+                  a.woocommerce-LoopProduct-link {
+                    display: flex;
+                    width: 100%;
+                    height: 100%;
+                    overflow: hidden;
+                    justify-content: center;
+                    background-color: #fff;
+                    img {
+                      width: auto;
+                      height: 100%;
+                      object-fit: cover;
+                      object-position: center;
+                      display: block;
+                    }
+                  }
+                }
+                .woo-product-info {
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: flex-start;
+                  align-items: flex-start;
+                  background-color: transparent;
+                  padding: 15px 30px;
+                  .title {
+                    h2 {
+                      a {
+                        font-family: $source-sans-3-variable;
+                        @include font-style(12px, 400, 16px);
+                        color: $dark;
+                      }
+                    }
+                  }
+                  .price-wrap {
+                    .price {
+                      .woocommerce-Price-amount {
+                        font-family: $kepler-3-display-variable;
+                        @include font-style(20px, 600, 20px);
+                        color: $dark !important;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      /* 1. Hide extra gallery thumbnail strips and swatches inside loop items */
+      .woocommerce ul.products li.product .product-thumbnails,
+      .woocommerce ul.products li.product .secondary-thumb,
+      .woocommerce ul.products li.product .gallery-thumbs,
+      .woocommerce ul.products li.product .ast-shop-thumbnail-wrap .product-gallery,
+      .woocommerce ul.products li.product .flex-control-nav,
+      .woocommerce ul.products li.product .flex-direction-nav {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+
+      /* 2. Prevent hover-triggered opacity/visibility changes on secondary image elements */
+      .woocommerce ul.products li.product:hover .secondary-image,
+      .woocommerce ul.products li.product:hover .product-thumbnails,
+      .woocommerce ul.products li.product:hover img:nth-child(n+2) {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+      }
+
+      /* Ensure main image remains visible and still on hover */
+      .woocommerce ul.products li.product:hover img {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      /* 2. HIDE CATEGORIES, TAGS, RATINGS & EXTRA DESCRIPTION TEXT */
+      .woocommerce ul.products li.product .posted_in,
+      .woocommerce ul.products li.product .tagged_as,
+      .woocommerce ul.products li.product .ast-woo-product-category,
+      .woocommerce ul.products li.product .category,
+      .woocommerce ul.products li.product .star-rating,
+      .woocommerce ul.products li.product .woocommerce-product-details__short-description,
+      .woocommerce ul.products li.product p:not(.price) {
+        display: none !important;
+      }
+    }
+  }
+}
+
+
+
 .help {
   margin-top: 35px;
   .help__top {
