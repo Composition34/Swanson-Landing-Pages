@@ -239,10 +239,18 @@ body {
 }
 
 .hero__banner {
-  @include bg($white, 'https://swansoninc.com/wp-content/uploads/LP_ChurchResourceHeroimage.png', 50% 50%, cover, no-repeat);
   min-height: 820px;
   margin: 35px 0;
   position: relative;
+  &.cm {
+    @include bg($white, 'https://swansoninc.com/wp-content/uploads/LP_C_ChurchResourceHeroimage.jpg', 50% 50%, cover, no-repeat);
+  }
+  &.re {
+    @include bg($white, 'https://swansoninc.com/wp-content/uploads/LPHeroBG.png', 50% 50%, cover, no-repeat);
+  }
+  &.wh {
+    @include bg($white, 'https://swansoninc.com/wp-content/uploads/LPHeroBG.png', 50% 50%, cover, no-repeat);
+  }
   .hero__banner__content {
     height: 100%;
     width: 50%;
@@ -1437,6 +1445,9 @@ h3 {
             padding: 0 0 15px 0;
             &:last-of-type {
               padding: 0;
+              span {
+                padding-top: 8px;
+              }
             }
           }
         }
@@ -1943,11 +1954,16 @@ h3 {
           flex-direction: column;
           position: relative;
           flex: 1;
-          height: 350px;
+          height: auto;
           border: 1px solid $border;
           border-radius: 10px;
+          overflow: hidden;
           img {
             width: 100%;
+            height: 284px;
+            object-fit: cover;
+            object-position: center center; /* Centers the image focal point vertically and horizontally */
+            display: block;
           }
           strong {
             font-family: $kepler-3-display-variable;
@@ -2076,10 +2092,14 @@ h3 {
           flex-direction: column;
           position: relative;
           flex: 1;
-          height: 350px;
+          height: auto;
           img {
             width: 100%;
+            height: 175px;
+            object-fit: cover;
+            object-position: center center; /* Centers the image crop horizontally and vertically */
             border-radius: 10px;
+            display: block;
           }
           small {
             display: flex;
@@ -2204,10 +2224,13 @@ h3 {
           flex-direction: column;
           position: relative;
           flex: 1;
-          height: 350px;
           img {
             width: 100%;
+            height: 175px;
+            object-fit: cover;
+            object-position: top center; /* Pins top edge, crops bottom overflow */
             border-radius: 10px;
+            display: block;
           }
           small {
             display: flex;
