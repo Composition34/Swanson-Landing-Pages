@@ -31,7 +31,7 @@ $bglightblue: #B4C5E4;
 // ==========================================================================
 
 $mobile: 480px;
-$tablet: 768px;
+$tablet: 980px;
 $laptop: 1024px;
 $desktop: 1300px;
 
@@ -100,8 +100,8 @@ body {
 }
 
 .lp__1080 {
-  max-width: 1250px;
-  width: 100%;
+  max-width: 95%;
+  width: 95%;
   @include max-width($desktop) {
     max-width: 95%;
   }
@@ -127,6 +127,10 @@ body {
     color: $light;
     padding: 0 0 35px 0;
     text-transform: uppercase;
+    @include max-width($tablet) {
+      @include font-style(12px, 500, 13px);
+      padding: 0 0 20px 0;
+    }
   }
   p {
     font-family: $source-sans-3-variable;
@@ -136,10 +140,16 @@ body {
       font-family: $kepler-3-display-variable;
       @include font-style(40px, 600, 40px);
       color: $dark;
+      @include max-width($tablet) {
+        @include font-style(30px, 600, 35px);
+      }
     }
     &:last-of-type {
       width: 60%;
       text-transform: none;
+      @include max-width($tablet) {
+        @include font-style(16px, 400, 22px);
+      }
     }
   }
   ul {
@@ -235,6 +245,55 @@ body {
         }
       }
     }
+    @include max-width($tablet) {
+      flex-direction: column;
+      li {
+        a {
+          height: 125px;
+          margin-bottom: 10px;
+          padding: 40px 20px 20px 20px;
+          small {
+            @include font-style(12px, 500, 13px);
+            padding: 10px 0 0 0;
+          }
+          strong {
+            @include font-style(25px, 600, 28px);
+          }
+        }
+        &:first-child {
+          a {
+            @include bg($white, 'https://swansoninc.com/wp-content/uploads/icon_user_heart_768595.png', 20px 20%, 15px auto, no-repeat);
+          }
+        }
+        &:nth-child(2) {
+          a {
+            @include bg($white, 'https://swansoninc.com/wp-content/uploads/icon_church_768595.png', 20px 20%, 15px auto, no-repeat);
+          }
+        }
+        &:last-child {
+          a {
+            @include bg($white, 'https://swansoninc.com/wp-content/uploads/icon_store_768595.png', 20px 20%, 15px auto, no-repeat);
+          }
+        }
+        &.active {
+          &:first-child {
+            a {
+              @include bg($white, 'https://swansoninc.com/wp-content/uploads/icon_user_heart_FFFFFF.png', 20px 20%, 15px auto, no-repeat);
+            }
+          }
+          &:nth-child(2) {
+            a {
+              @include bg($white, 'https://swansoninc.com/wp-content/uploads/icon_church_FFFFFF.png', 20px 20%, 15px auto, no-repeat);
+            }
+          }
+          &:last-child {
+            a {
+              @include bg($white, 'https://swansoninc.com/wp-content/uploads/icon_store_FFFFFF.png', 20px 20%, 15px auto, no-repeat);
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -254,7 +313,7 @@ body {
   .hero__banner__content {
     height: 100%;
     width: 50%;
-    padding: 20px;
+    padding: 20px 35px;
     background-color: rgba($white, 0.75);
     small {
       font-family: $source-sans-3-variable;
@@ -290,13 +349,13 @@ body {
     position: absolute;
     display: flex;
     flex-direction: row;
-    max-width: 1300px;
-    width: 100%;
+    max-width: 1600px;
+    width: 95%;
     margin: 0;
     @include max-width($desktop) {
       max-width: 95%;
     }
-    min-height: 165px;
+    min-height: 125px;
     left: 50%;
     transform: translate(-50%, 0);
     bottom: -80px;
@@ -324,6 +383,45 @@ body {
       }
     }
   }
+  @include max-width($tablet) {
+    min-height: 300px;
+    .hero__banner__content {
+      width: 100%;
+      padding: 20px;
+      align-items: center;
+      text-align: center;
+      h3 {
+        font-size: 40px;
+        line-height: 45px
+      }
+      p {
+        font-size: 14px;
+        line-height: 18px;
+      }
+      a {
+        margin-left: auto;
+      }
+    }
+    ul {
+        position: relative;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        bottom: auto;
+        min-height: auto;
+        width: 100%;
+        gap: 10px;
+        margin: 15px auto;
+      li {
+        flex: none;
+        width: 45%;
+        strong {
+          font-size: 20px;
+          padding: 5px 0;
+        }
+      }
+    }
+  }
 }
 
 
@@ -334,18 +432,38 @@ h3 {
     @include font-style(60px, 600, 60px);
     color: $dark;
     margin: 100px auto 25px auto;
-    padding: 0 0 25px 0;
+    padding: 0 0 45px 0;
     text-align: center;
     border-bottom: 1px solid $border;
     span {
-      color: #DE9A7D;
+      color: $bglightblue;
       text-decoration: underline;
+    }
+    @include max-width($tablet) {
+      @include font-style(35px, 500, 45px);
+      margin: 10px auto;
+    }
+  }
+}
+body {
+  &.page-id-118495 {
+    h3 {
+      &.tagline__title {
+        margin: 100px auto 0 auto;
+        @include max-width($tablet) {
+          margin: 10px auto;
+        }
+      }
+    }
+    .collections {
+      margin-top: 0;
     }
   }
 }
 
 .essentials {
   position: relative;
+  max-width: 95% !important;
   small {
     font-family: $source-sans-3-variable;
     @include font-style(13px, 500, 13px);
@@ -387,6 +505,18 @@ h3 {
       flex-direction: column;
       justify-content: flex-end;
       padding: 15px;
+      &::after {
+        position: absolute;
+        content: "";
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgb(0 0 0 / 70%) 0%, rgba(0, 0, 0, 0) 45%);
+        z-index: 1;
+      }
       &:nth-child(1) {
         grid-column: span 2;
       }
@@ -431,11 +561,42 @@ h3 {
         z-index: 1;
       }
     }
+    @include max-width($tablet) {
+      grid-template-columns: 1fr;
+      gap: 10px;
+
+      .grid__layout__ind {
+        grid-column: span 1; /* Normalizes item 1 down to single column width */
+        height: 220px;       /* Scales down the 350px height for phone screens */
+
+        &:nth-child(1) {
+          grid-column: span 1;
+        }
+
+        strong {
+          @include font-style(22px, 700, 24px);
+          padding-bottom: 10px;
+        }
+      }
+    }
+  }
+  @include max-width($tablet) {
+    small {
+      @include font-style(12px, 500, 13px);
+      padding: 0 0 20px 0;
+    }
+    p {
+      @include font-style(16px, 400, 22px);
+      strong {
+        @include font-style(30px, 600, 35px);
+      }
+    }
   }
 }
 
 .explore__essentials {
   position: relative;
+  max-width: 95% !important;
   small {
     font-family: $source-sans-3-variable;
     @include font-style(13px, 500, 13px);
@@ -467,7 +628,7 @@ h3 {
     // Col 1 (Hero), Col 2 (Small), Col 3 (Small)
     grid-template-columns: 40% 1fr 1fr;
     // 4 rows of 175px each = 700px total
-    grid-template-rows: repeat(4, 175px); 
+    grid-template-rows: repeat(4, 260px);
     gap: 20px;
     .grid__layout__ind {
       position: relative;
@@ -477,16 +638,30 @@ h3 {
       flex-direction: column;
       justify-content: flex-end;
       padding: 15px;
+      &::after {
+        position: absolute;
+        content: "";
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgb(0 0 0 / 70%) 0%, rgba(0, 0, 0, 0) 45%);
+        z-index: 1;
+      }
       // The "Hero" image: spans all 4 rows
-      &:nth-child(1) {
-        grid-row: span 4;
+      &:nth-child(1),
+      &:nth-child(6) {
+        grid-column: 1;
+        grid-row: span 2;
         img {
           object-position: left center;
         }
       }
 
       // All other items: default to 1 row high
-      &:not(:nth-child(1)) {
+      &:not(:nth-child(1)):not(:nth-child(6)) {
         grid-row: span 1;
         flex-direction: row;
         align-items: flex-end;
@@ -545,6 +720,51 @@ h3 {
         z-index: 1;
       }
     }
+    @include max-width($tablet) {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      gap: 10px;
+      .grid__layout__ind {
+        height: 220px; /* Gives every card a uniform height in the mobile stack */
+
+        // Reset explicit column positioning and row spans for Hero items
+        &:nth-child(1),
+        &:nth-child(6) {
+          grid-column: auto;
+          grid-row: auto;
+        }
+
+        // Reset horizontal layout overrides on non-hero items to vertical column flow
+        &:not(:nth-child(1)):not(:nth-child(6)) {
+          grid-row: auto;
+          flex-direction: row;
+          justify-content: flex-end;
+
+          strong {
+            @include font-style(20px, 700, 22px);
+            padding-bottom: 10px;
+          }
+
+          small {
+            &:last-child {
+              width: auto;
+            }
+          }
+        }
+      }
+    }
+  }
+  @include max-width($tablet) {
+    small {
+      @include font-style(12px, 500, 13px);
+      padding: 0 0 20px 0;
+    }
+    p {
+      @include font-style(16px, 400, 22px);
+      strong {
+        @include font-style(30px, 600, 35px);
+      }
+    }
   }
 }
 
@@ -556,6 +776,7 @@ h3 {
 
 
 .outreach__resources {
+  max-width: 95% !important;
   .outreach__resources__top {
     img {
       display: flex;
@@ -563,10 +784,13 @@ h3 {
       height: auto;
       aspect-ratio: 2.73 / 1;
       object-fit: cover;
-      padding: 0 15px 0 0;
+      margin: 0 15px 0 0;
+      border-radius: 10px;
+      overflow: hidden;
     }
     .flex__column {
       flex: 1;
+      padding-left: 10px;
       small {
         font-family: $source-sans-3-variable;
         @include font-style(13px, 500, 13px);
@@ -656,6 +880,54 @@ h3 {
           }
         }
       }
+      @include max-width($tablet) {
+        flex-direction: column;
+        row-gap: 10px;
+        column-gap: 0;
+        li {
+          width: 100%;
+          flex: none; /* Disables flex-grow/shrink ratio from desktop */
+          a {
+            height: auto; /* Removes 350px fixed height so the card fits content naturally */
+
+            img {
+              height: 180px; /* Gives the image a slightly roomier presence on mobile */
+            }
+
+            strong {
+              @include font-style(18px, 700, 20px);
+              margin-bottom: 10px;
+            }
+
+            small {
+              padding-bottom: 15px;
+            }
+          }
+        }
+      }
+    }
+  }
+  @include max-width($tablet) {
+    .outreach__resources__top {
+      flex-direction: column;
+      img {
+        width: 100%;
+      }
+      .flex__column {
+        small {
+          @include font-style(12px, 500, 13px);
+          padding: 10px 0;
+        }
+        p {
+          @include font-style(16px, 400, 22px);
+          strong {
+            @include font-style(30px, 600, 35px);
+          }
+          &:nth-last-of-type(2) {
+            width: 100%;
+          }
+        }
+      }
     }
   }
 }
@@ -716,14 +988,51 @@ h3 {
       }
     }
   }
+  @include max-width($tablet) {
+    .church__pricing__inner {
+      flex-direction: column;
+      .church__pricing__inner__left {
+        small {
+          @include font-style(12px, 500, 13px);
+          padding: 0 0 20px 0;
+        }
+        p {
+          @include font-style(16px, 400, 22px);
+          strong {
+            @include font-style(30px, 600, 35px);
+          }
+        }
+      }
+      .church__pricing__inner__right {
+        width: 100%;
+        align-items: center;
+        a {
+          margin: 15px auto 0 auto;
+        }
+        small {
+          @include font-style(12px, 500, 13px);
+          padding: 10px 0;
+        }
+        p {
+          @include font-style(16px, 400, 22px);
+          strong {
+            @include font-style(30px, 600, 35px);
+          }
+        }
+      }
+    }
+  }
 }
 
 
 .childrens__ministry {
   margin-top: 25px;
+  max-width: 95% !important;
   .childrens__ministry__top, 
   .childrens__ministry__top__img {
     position: relative;
+    border-radius: 10px;
+    overflow: hidden;
     small {
       font-family: $source-sans-3-variable;
       @include font-style(13px, 500, 13px);
@@ -841,6 +1150,56 @@ h3 {
           }
         }
       }
+      @include max-width($tablet) {
+        flex-direction: column;
+        row-gap: 10px;
+        column-gap: 0;
+
+        li {
+          width: 100%;
+          flex: none; /* Prevents desktop flex-grow/shrink sizing */
+
+          a {
+            height: auto;       /* Clears the fixed 350px height */
+            overflow: hidden;   /* Keeps the image corners within the card border-radius */
+
+            img {
+              height: 200px; /* Scales down the 260px desktop height for mobile proportions */
+            }
+
+            strong {
+              @include font-style(18px, 700, 20px);
+              margin-bottom: 10px;
+            }
+            small {
+              padding-bottom: 15px;
+            }
+          }
+        }
+      }
+    }
+  }
+  @include max-width($tablet) {
+    .childrens__ministry__top, 
+    .childrens__ministry__top__img {
+      small {
+        @include font-style(12px, 500, 13px);
+        padding: 0 0 20px 0;
+      }
+      p {
+        @include font-style(16px, 400, 22px);
+        strong {
+          @include font-style(30px, 600, 35px);
+        }
+      }
+      a {
+        position: relative;
+        width: auto;
+        right: auto;
+        bottom: auto;
+        font-size: 13px;
+        margin: 0 0 10px 0;
+      }
     }
   }
 }
@@ -848,6 +1207,7 @@ h3 {
 
 .brands {
   margin-top: 25px;
+  max-width: 95% !important;
   .brands__top {
     position: relative;
     small {
@@ -948,14 +1308,61 @@ h3 {
           }
         }
       }
+      @include max-width($tablet) {
+        flex-direction: column;
+        row-gap: 10px;
+        column-gap: 0;
+        li {
+          width: 100%;
+          flex: none; /* Prevents desktop flex-grow/shrink sizing */
+
+          a {
+            height: auto;       /* Clears fixed 350px height so content wraps naturally */
+            overflow: hidden;   /* Keeps top corners of image inside the border-radius */
+
+            img {
+              height: 200px; /* Scales down from 280px for better mobile proportions */
+            }
+
+            strong {
+              @include font-style(18px, 700, 20px);
+            }
+          }
+        }
+      }
+    }
+  }
+  @include max-width($tablet) {
+    margin-top: 0;
+    .brands__top {
+      small {
+        @include font-style(12px, 500, 13px);
+        padding: 0 0 20px 0;
+      }
+      p {
+        @include font-style(16px, 400, 22px);
+        strong {
+          @include font-style(30px, 600, 35px);
+        }
+      }
+      .btn__right {
+        position: relative;
+        width: auto;
+        right: auto;
+        bottom: auto;
+        font-size: 13px;
+        margin: 0 0 10px 0;
+      }
     }
   }
 }
 
 .decor {
+  max-width: 95% !important;
   .decor__left {
     width: 33%;
     position: relative;
+    flex: 1;
     small {
       font-family: $source-sans-3-variable;
       @include font-style(13px, 500, 13px);
@@ -995,6 +1402,7 @@ h3 {
   }
   ul {
     &.decor__right {
+      width: 60%;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
@@ -1039,6 +1447,46 @@ h3 {
 
         }
       }
+      @include max-width($tablet) {
+        width: 100%;                  /* Expands container from 60% to full width */
+        grid-template-columns: 1fr;  /* Collapses 3 columns down to a single column */
+        gap: 10px;                   /* Keeps your 10px spacing */
+        li {
+          max-width: none;           /* Removes 265px max-width restraint */
+          max-height: none;          /* Removes 487px max-height restraint */
+          aspect-ratio: auto;        /* Clears the tall portrait aspect ratio */
+          /* Clears the staggered staircase margins from desktop */
+          &:first-child,
+          &:nth-child(2) {
+            margin-top: 0;
+          }
+          img {
+            height: 220px;           /* Replaces percentage height with a fixed 220px mobile height */
+          }
+          small {
+            padding-top: 8px;        /* Gives caption breathing room under the image */
+          }
+        }
+      }
+    }
+  }
+  @include max-width($tablet) {
+    flex-direction: column;
+    .decor__left {
+      width: 100%;
+      small {
+        @include font-style(12px, 500, 13px);
+        padding: 0 0 20px 0;
+      }
+      p {
+        @include font-style(16px, 400, 22px);
+        strong {
+          @include font-style(30px, 600, 35px);
+        }
+      }
+    }
+    ul {
+      width: 100%;
     }
   }
 }
@@ -1099,10 +1547,41 @@ h3 {
       }
     }
   }
+  @include max-width($tablet) {
+    .spanish__inner {
+      flex-direction: column;
+      .spanish__inner__left {
+        small {
+          @include font-style(12px, 500, 13px);
+          padding: 0 0 20px 0;
+        }
+        p {
+          @include font-style(16px, 400, 22px);
+          strong {
+            @include font-style(30px, 600, 35px);
+          }
+        }
+      }
+      .spanish__inner__right {
+        width: 100%;
+        align-items: center;
+        a {
+          background-color: $grey;
+          border-radius: 10px;
+          font-family: $source-sans-3-variable;
+          @include font-style(13px, 500, 13px);
+          color: $white;
+          padding: 15px 20px;
+          margin: 10px auto 0 auto;
+        }
+      }
+    }
+  }
 }
 
 .custom {
   padding-top: 25px;
+  max-width: 95% !important;
   .custom__top {
     position: relative;
     small {
@@ -1170,7 +1649,7 @@ h3 {
           }
           p {
             font-family: $source-sans-3-variable;
-            @include font-style(18px, 400, 24px);
+            @include font-style(16px, 400, 17px);
             color: $grey;
             strong {
               font-family: $kepler-3-display-variable;
@@ -1187,6 +1666,23 @@ h3 {
         }
         &:last-child {
           flex-direction: row-reverse;
+        }
+      }
+    }
+  }
+  @include max-width($tablet) {
+    .custom__top {
+      small {
+        @include font-style(12px, 500, 13px);
+        padding: 0 0 20px 0;
+      }
+      p {
+        @include font-style(16px, 400, 22px);
+        strong {
+          @include font-style(30px, 600, 35px);
+        }
+        &:last-of-type {
+          width: 100%;
         }
       }
     }
@@ -1274,13 +1770,33 @@ h3 {
       }
     }
   }
+  @include max-width($tablet) {
+    .retailers__top {
+      small {
+        @include font-style(12px, 500, 13px);
+        padding: 0 0 20px 0;
+      }
+      p {
+        @include font-style(16px, 400, 22px);
+        strong {
+          @include font-style(30px, 600, 35px);
+        }
+      }
+    }
+    ul {
+      &.thumbnails__3 {
+        flex-direction: column;
+        gap: 10px 0;
+      }
+    }
+  }
 }
 
 
 .comingsoon {
   background-color: $bglightblue;
   margin: 35px 0 0 0;
-  max-height: 330px;
+  max-height: 370px;
   overflow: hidden;
   .comingsoon__inner {
     margin: 0 auto;
@@ -1291,22 +1807,19 @@ h3 {
       display: flex;
       flex-direction: column;
       flex: 1;
-      padding: 35px 20px;
+      padding: 50px 35px 35px 35px;
       small {
         font-family: $source-sans-3-variable;
         @include font-style(13px, 500, 13px);
         color: $light;
-        padding: 0 0 35px 0;
+        padding: 10px 0 25px 0;
         text-transform: uppercase;
-        &:last-of-type {
-          text-transform: none;
-          padding: 10px 0 0 0;
-        }
       }
       p {
         font-family: $source-sans-3-variable;
         @include font-style(18px, 400, 24px);
         color: $grey;
+        margin-bottom: 30px;
         strong {
           font-family: $kepler-3-display-variable;
           @include font-style(40px, 600, 40px);
@@ -1359,6 +1872,25 @@ h3 {
         object-fit: cover;
         display: block;
         object-position: center center;
+      }
+    }
+  }
+  @include max-width($tablet) {
+    max-height: 400px;
+    .comingsoon__inner {
+      flex-direction: column;
+      .comingsoon__inner__left {
+        padding: 20px;
+        small {
+          @include font-style(12px, 500, 13px);
+          padding: 0 0 20px 0;
+        }
+        p {
+          @include font-style(16px, 400, 22px);
+          strong {
+            @include font-style(30px, 600, 35px);
+          }
+        }
       }
     }
   }
@@ -1422,6 +1954,13 @@ h3 {
         flex: 1;
         border-radius: 10px;
         background-color: $bgfill;
+        &:nth-child(2) {
+          a {
+            strong {
+              text-transform: lowercase;
+            }
+          }
+        }
         a {
           display: flex;
           flex-direction: column;
@@ -1449,6 +1988,43 @@ h3 {
                 padding-top: 8px;
               }
             }
+          }
+        }
+      }
+    }
+  }
+  @include max-width($tablet) {
+    margin-top: 0;
+    .help__top {
+      small {
+        @include font-style(12px, 500, 13px);
+        padding: 20px 0;
+        &:last-of-type {
+          position: relative;
+          right: auto;
+          top: auto;
+          padding: 0;
+          width: 100%;
+          text-transform: none;
+        }
+      }
+      p {
+        @include font-style(16px, 400, 22px);
+        width: 100%;
+        padding-bottom: 10px;
+        strong {
+          @include font-style(30px, 600, 35px);
+        }
+      }
+    }
+    ul {
+      &.thumbnails__3 {
+        flex-direction: column;
+        gap: 10px 0;
+        li {
+          a {
+            height: auto;
+            padding: 20px;
           }
         }
       }
@@ -1499,6 +2075,20 @@ h3 {
         background-color: $light;
         color: $dark;
         margin: 0 0 0 20px;
+      }
+    }
+  }
+  @include max-width($tablet) {
+    .support__inner {
+      small {
+        @include font-style(12px, 500, 13px);
+        padding: 0 0 20px 0;
+      }
+      p {
+        @include font-style(16px, 400, 22px);
+        strong {
+          @include font-style(30px, 600, 35px);
+        }
       }
     }
   }
@@ -1578,6 +2168,37 @@ h3 {
       }
     }
   }
+  @include max-width($tablet) {
+    flex-direction: column;
+    margin-top: 0;
+    padding: 0 15px;
+    .subscribe__left {
+      small {
+        @include font-style(12px, 500, 13px);
+        padding: 0 0 20px 0;
+      }
+      p {
+        @include font-style(16px, 400, 22px);
+        strong {
+          @include font-style(30px, 600, 35px);
+        }
+      }
+    }
+    .subscribe__right {
+      .mc4wp-form-fields {
+        flex-direction: column;
+        p {
+          &:nth-child(2),
+          &:nth-child(3) {
+            margin-left: auto;
+          }
+          input[type="submit"] {
+            margin: 0 auto;
+          }
+        }
+      }
+    }
+  }
 }
 
 .collections {
@@ -1592,7 +2213,7 @@ h3 {
     flex-direction: column;
     z-index: 3;
     width: 50%;
-    padding: 35px 20px;
+    padding: 50px 20px;
     small {
       font-family: $source-sans-3-variable;
       @include font-style(13px, 500, 13px);
@@ -1643,6 +2264,25 @@ h3 {
     object-fit: cover;
     z-index: 1;
   }
+  @include max-width($tablet) {
+    .collections__left {
+      width: 75%;
+      small {
+        @include font-style(12px, 500, 13px);
+        padding: 0 0 20px 0;
+      }
+      p {
+        @include font-style(16px, 400, 22px);
+        strong {
+          @include font-style(30px, 600, 35px);
+        }
+      }
+    }
+    &::after {
+      right: 35%;
+      width: 75%;
+    }
+  }
 }
 
 .categories__wholesale {
@@ -1679,7 +2319,7 @@ h3 {
     // Col 1 (Hero), Col 2 (Small), Col 3 (Small)
     grid-template-columns: 40% 1fr 1fr;
     // 4 rows of 175px each = 700px total
-    grid-template-rows: repeat(4, 175px); 
+    grid-template-rows: repeat(4, 260px); 
     gap: 20px;
     .grid__layout__ind {
       position: relative;
@@ -1689,6 +2329,18 @@ h3 {
       flex-direction: column;
       justify-content: flex-end;
       padding: 15px;
+      &::after {
+        position: absolute;
+        content: "";
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgb(0 0 0 / 70%) 0%, rgba(0, 0, 0, 0) 45%);
+        z-index: 1;
+      }
       // The "Hero" image: spans all 4 rows
       &:nth-child(1),
       &:nth-child(6) {
@@ -1755,6 +2407,57 @@ h3 {
         object-fit: cover; // Fill the area while preserving aspect ratio (will crop edges)
         object-position: center; // Equivalent to 'background-position: center'
         z-index: 1;
+      }
+    }
+    @include max-width($tablet) {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      gap: 10px;
+
+      .grid__layout__ind {
+        flex-direction: row;
+        height: 220px; /* Gives every card a uniform height in the mobile stack */
+
+        // Reset spanning rules for items 1 & 6
+        &:nth-child(1),
+        &:nth-child(6) {
+          grid-column: auto;
+          grid-row: auto;
+          @include font-style(20px, 700, 22px);
+          padding-bottom: 5px;
+          flex-direction: row;
+          justify-content: flex-end;
+        }
+
+        // Reset horizontal layout overrides on non-hero items
+        &:not(:nth-child(1)):not(:nth-child(6)) {
+          grid-row: auto;
+          flex-direction: row;
+          justify-content: flex-end;
+
+          strong {
+            @include font-style(20px, 700, 22px);
+            padding-bottom: 5px;
+          }
+
+          small {
+            &:last-child {
+              width: auto;
+            }
+          }
+        }
+      }
+    }
+  }
+  @include max-width($tablet) {
+    small {
+      @include font-style(12px, 500, 13px);
+      padding: 0 0 20px 0;
+    }
+    p {
+      @include font-style(16px, 400, 22px);
+      strong {
+        @include font-style(30px, 600, 35px);
       }
     }
   }
@@ -1856,8 +2559,8 @@ h3 {
           overflow: hidden;
           img {
             width: 100%;
-            height: 200px;
-            min-height: 200px;
+            height: 400px;
+            min-height: 400px;
             object-fit: cover;
             object-position: center;
             display: block;
@@ -1888,6 +2591,59 @@ h3 {
             }
           }
         }
+      }
+      @include max-width($tablet) {
+        gap: 10px;
+        margin: 0; /* Clear negative desktop margins */
+        li {
+          /* Force every item to full width on mobile */
+          &:nth-child(1),
+          &:nth-child(2),
+          &:nth-child(3),
+          &:nth-child(4) {
+            width: 100%;
+          }
+
+          a {
+            min-height: auto; /* Remove the 300px min-height restriction */
+
+            img {
+              height: 260px;     /* Scales down the bulky 400px desktop height */
+              min-height: 260px;
+            }
+
+            strong {
+              @include font-style(20px, 700, 22px);
+              padding: 12px 15px;
+            }
+          }
+        }
+      }
+    }
+  }
+  @include max-width($tablet) {
+    margin-top: 0;
+    .best__sellers__top {
+      small {
+        @include font-style(12px, 500, 13px);
+        padding: 0 0 20px 0;
+      }
+      p {
+        @include font-style(16px, 400, 22px);
+        strong {
+          @include font-style(30px, 600, 35px);
+        }
+        &:last-of-type {
+          width: 100%;
+        }
+      }
+      .btn__right {
+        position: relative;
+        width: auto;
+        right: auto;
+        bottom: auto;
+        font-size: 13px;
+        margin: 0 0 10px 0;
       }
     }
   }
@@ -1994,9 +2750,45 @@ h3 {
           }
         }
       }
+      @include max-width($tablet) {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 15px;
+        li {
+          a {
+            img {
+              height: 200px; /* Scales down the 284px desktop image height for mobile viewports */
+            }
+          }
+        }
+      }
+    }
+  }
+  @include max-width($tablet) {
+    margin-top: 0;
+    .brands__wh__top {
+      small {
+        @include font-style(12px, 500, 13px);
+        padding: 0 0 20px 0;
+      }
+      p {
+        @include font-style(16px, 400, 22px);
+        strong {
+          @include font-style(30px, 600, 35px);
+        }
+      }
+      .btn__right {
+        position: relative;
+        width: auto;
+        right: auto;
+        bottom: auto;
+        font-size: 13px;
+        margin: 0 0 10px 0;
+      }
     }
   }
 }
+
 
 .displays {
   margin-top: 25px;
@@ -2005,6 +2797,7 @@ h3 {
     padding: 25px;
     border-radius: 10px;
     overflow: hidden;
+    min-height: 350px;
     small {
       font-family: $source-sans-3-variable;
       @include font-style(13px, 500, 13px);
@@ -2070,6 +2863,7 @@ h3 {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: center;
         z-index: 1;
       }
     }
@@ -2095,7 +2889,7 @@ h3 {
           height: auto;
           img {
             width: 100%;
-            height: 175px;
+            height: 250px;
             object-fit: cover;
             object-position: center center; /* Centers the image crop horizontally and vertically */
             border-radius: 10px;
@@ -2114,6 +2908,34 @@ h3 {
               color: $light;
             }
           }
+        }
+      }
+      @include max-width($tablet) {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 15px;
+
+        li {
+          a {
+            img {
+              height: 180px; /* Reduces image height so the cards stack cleanly */
+            }
+          }
+        }
+      }
+    }
+  }
+  @include max-width($tablet) {
+    .displays__top {
+      small {
+        @include font-style(12px, 500, 13px);
+        padding: 0 0 20px 0;
+      }
+      p {
+        @include font-style(16px, 400, 22px);
+        width: 100%;
+        strong {
+          @include font-style(30px, 600, 35px);
         }
       }
     }
@@ -2178,6 +3000,27 @@ h3 {
         margin: 15px 0 0 auto;
       }
     }
+    @include max-width($tablet) {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .savings__inner__left {
+        small {
+          @include font-style(12px, 500, 13px);
+          padding: 0 0 20px 0;
+        }
+        p {
+          @include font-style(16px, 400, 22px);
+          width: 100%;
+          strong {
+            @include font-style(30px, 600, 35px);
+          }
+          &:last-of-type {
+            width: 100%;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -2226,7 +3069,7 @@ h3 {
           flex: 1;
           img {
             width: 100%;
-            height: 175px;
+            height: 250px;
             object-fit: cover;
             object-position: top center; /* Pins top edge, crops bottom overflow */
             border-radius: 10px;
@@ -2245,6 +3088,34 @@ h3 {
               color: $light;
             }
           }
+        }
+      }
+      @include max-width($tablet) {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 15px;
+
+        li {
+          a {
+            img {
+              height: 180px; /* Reduces image height so the cards stack cleanly */
+            }
+          }
+        }
+      }
+    }
+  }
+  @include max-width($tablet) {
+    .displays__retail__top {
+      small {
+        @include font-style(12px, 500, 13px);
+        padding: 0 0 20px 0;
+      }
+      p {
+        @include font-style(16px, 400, 22px);
+        width: 100%;
+        strong {
+          @include font-style(30px, 600, 35px);
         }
       }
     }
@@ -2277,6 +3148,7 @@ h3 {
       content: "";
       width: 15%;
       right: 0;
+      display: none;
     }
   }
   .grid__layout {
@@ -2293,6 +3165,18 @@ h3 {
       flex-direction: column;
       justify-content: flex-end;
       padding: 15px;
+      &::after {
+        position: absolute;
+        content: "";
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgb(0 0 0 / 70%) 0%, rgba(0, 0, 0, 0) 45%);
+        z-index: 1;
+      }
       &:nth-child(1) {
         grid-column: span 7;
       }
@@ -2352,6 +3236,38 @@ h3 {
         z-index: 1;
       }
     }
+    @include max-width($tablet) {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      .grid__layout__ind {
+        height: 220px; /* Scales down the 350px block height for mobile screens */
+        /* Reset the 18-column span rules on all 6 items to single-column width */
+        &:nth-child(1),
+        &:nth-child(2),
+        &:nth-child(3),
+        &:nth-child(4),
+        &:nth-child(5),
+        &:nth-child(6) {
+          grid-column: span 1;
+        }
+        strong {
+          @include font-style(22px, 500, 24px);
+          padding-bottom: 10px;
+        }
+      }
+    }
+  }
+  @include max-width($tablet) {
+    small {
+      @include font-style(12px, 500, 13px);
+      padding: 0 0 20px 0;
+    }
+    p {
+      @include font-style(16px, 400, 22px);
+      strong {
+        @include font-style(30px, 600, 35px);
+      }
+    }
   }
 }
 
@@ -2408,6 +3324,31 @@ h3 {
           width: 50px;
           height: auto;
           padding-bottom: 15px;
+        }
+      }
+    }
+  }
+  @include max-width($tablet) {
+    margin: 0 auto;
+    padding: 35px 0 0 0;
+    small {
+      @include font-style(12px, 500, 13px);
+      padding: 0 0 20px 0;
+    }
+    p {
+      @include font-style(16px, 400, 22px);
+      strong {
+        @include font-style(30px, 600, 35px);
+      }
+    }
+    ul {
+      li {
+        a {
+          align-items: center;
+          font-size: 14px;
+          img {
+            width: 30px;
+          }
         }
       }
     }
